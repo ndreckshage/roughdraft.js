@@ -1,0 +1,10 @@
+{
+  "example1": [
+    ["Sentence 1 in paragraph 1.","Sentence 2 in paragraph 1."],
+    ["Sentence 1 in paragraph 2.","Sentence 2 in paragraph 2."]
+  ],
+  "example2": [
+    ["Sentence 1 in paragraph 1.","Sentence 2 in paragraph 1."],
+    ["Sentence 1 in paragraph 2.","Sentence 2 in paragraph 2."]
+  ]
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <title>RoughDraft.js</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="css/roughdraft.css">
+  <script type="text/javascript" src="js/infrastructure/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="js/infrastructure/jquery.roughdraft/jquery.roughdraft.0.1.0.js"></script>
+  <script type="text/javascript" src="js/init_index.js"></script>
+</head>
+<body>
+
+  <!-- example structure -->
+
+  <!-- repeats everything within div specified times -->
+  <div data-draft-repeat="3">
+    <!-- fills with placeholder image at size -->
+    <img data-draft-image="272/272">
+    <!-- fills with placeholder date in format -->
+    <span data-draft-date="m/Y"></span>
+    <!-- fills with placeholder words -->
+    <span data-draft-text="10/w"></span>
+    <span data-draft-text="2/s"></span>
+    <span data-draft-text="1/p"></span>
+    <span>test</span>
+  </div>
+
+  <p data-draft-repeat="5">new</p>
+
+</body>
+</html>
