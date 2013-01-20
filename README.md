@@ -1,4 +1,4 @@
-roughdraft.js
+RoughDraft.js
 =============
 
-Quickly create an interactive HTML mock-up
+This plugin is in process, and is not yet ready to use.

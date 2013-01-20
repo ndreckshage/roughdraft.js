@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <title>Convert to JSON</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/css/roughdraft.css">
+  <script type="text/javascript" src="/js/infrastructure/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="/js/infrastructure/jquery.roughdraft/jquery.roughdraft.0.1.0.js"></script>
+  <script type="text/javascript" src="/tools/convert_to_json.js"></script>
+</head>
+<body>
+
+<!-- 
+  NOTES
+
+  - this is a hacky tool to convert lorem ipsum text into JSON
+  - we need well formed JSON for the lorem ipsum library to work
+
+  HOW TO
+
+  - get 20 or so paragraphs from lorem ipsum generator of your choice
+  - run the text through http://www.word2text.com/ or a similar site
+  - copy and paste the resulting text in the below convert div a paragraph at a time
+  - reload the page (/tools/convert_to_json.html) and copy the text into roughdraft.thesaurus.json
+  - some editing may be required (search/fix "." and "Mr."/"Mrs." etc)
+
+  TO DO
+
+  - find a much better way to do this...
+-->
+
+  <p class="convert"></p>
+
+</body>
+</html>
