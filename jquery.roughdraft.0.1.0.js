@@ -1,9 +1,14 @@
-/*
-// jQuery RoughDraft.js Plugin
-// Version 0.1.0
-// Copyright Nick Dreckshage, licensed GPL & MIT
-// https://github.com/ndreckshage/roughdraft.js
-*/
+/******************************************************/
+/******************************************************/
+/*                                                    */
+/*  jQuery RoughDraft.js Plugin                       */
+/*  Version 0.1.0                                     */
+/*                                                    */
+/*  Copyright Nick Dreckshage, licensed GPL & MIT     */
+/*  https://github.com/ndreckshage/roughdraft.js      */
+/*                                                    */
+/******************************************************/
+/******************************************************/
 
 // semi-colon as safety net against concatenated scripts that are improperly closed
 ;(function($,window,document,undefined){
@@ -36,8 +41,8 @@
 
   $.RedPen.settings = {
     author: 'lebowskiipsum.com',
-    illustrator: 'example1',
-    thesaurus: '/js/infrastructure/jquery.roughdraft/roughdraft.thesaurus.json'
+    illustrator: 'placehold.it',
+    thesaurus: '/roughdraft.thesaurus.json'
   }
 
   /**********************************************
@@ -71,21 +76,34 @@
     **********************************************/
 
     _create: function(options){
+      var draftRepeat = $('[data-draft-repeat]');
 
       // allows default options to be overwritten
       this.options = $.extend(true, {}, $.RedPen.settings, options);
 
-      // sets up selector variables
-      var draftRepeat = $('[data-draft-repeat]'),
-          draftText = $('[data-draft-text]'),
-          draftImage = $('[data-draft-image]'),
-          draftDate = $('[data-draft-date]');
-
-
-      // call the functions if the selectors are present in the dom
+      // building markup
       if (draftRepeat.length) {
         this.scanner(draftRepeat);
       }
+      
+    },
+
+    /**********************************************
+      *
+      *  _init method
+      *
+      *  -- fires when instance first created/triggered second time
+      *
+    **********************************************/
+
+    _init : function() {
+
+      // sets up selector variables
+      var draftText = $('[data-draft-text]'),
+          draftImage = $('[data-draft-image]'),
+          draftDate = $('[data-draft-date]');
+
+      // call the functions if the selectors are present in the dom
       if (draftText.length) {
         this.plagerizer(draftText);
       }
@@ -95,18 +113,6 @@
       if (draftDate.length) {
         this.scheduler(draftDate);
       }
-
-    },
-
-    // first when instance first created/triggered second time
-    
-    /**********************************************
-      *
-      *  _init method
-      *
-    **********************************************/
-
-    _init : function() {
     },
 
     // set options after initialization
@@ -146,14 +152,13 @@
     scanner: function (draftRepeat) {
 
       var draftRepeatBare = 'draft-repeat',
-          repeatCount,
-          repeatNode;
+          repeatCount;
 
       $.each(draftRepeat, function(){
-        repeatCount = $(this).data(draftRepeatBare),
-        repeatNode = $(this).removeAttr(dataTag + draftRepeatBare);
+        repeatCount = $(this).data(draftRepeatBare);
+        $(this).removeAttr(dataTag + draftRepeatBare);
         for (var i = 0; i < repeatCount - 1; i++){
-          repeatNode.clone().insertAfter(this);
+          $(this).clone(true, true).insertAfter(this);
         }
       });
 
@@ -169,31 +174,31 @@
 
     plagerizer: function(draftText) {
 
-      var draftTextBare = 'draft-text',
+      var self,
+          draftTextBare = 'draft-text',
           textData,
           textCount,
           textType;
 
       for (var i = 0; i < draftText.length; i++) {
         
-        var self = $(draftText[i]);
-
+        self = $(draftText[i]);
         textData = self.data(draftTextBare);
+
         if (typeof textData === 'string') {
 
           textData = textData.split('/');
           textCount = parseInt(textData[0]);
           textType = textData[1].toLowerCase();
 
-          if (isNaN(textCount)) {
+          if (isNaN(textCount) || typeof textType !== 'string') {
             textCount = false;
-          }
-          if (typeof textType !== 'string') {
             textType = false;
           }
 
           if (textCount && textType) {
-            console.log(this._openToRandomPage(textCount,textType));
+            self.removeAttr(dataTag + draftTextBare);
+            self.text(this._openToRandomPage(textCount, textType));
           } else {
             console.log("Please ensure that you specify Paragraph/Sentence/Word in the format 3/S, for 3 sentences");
           }
@@ -212,6 +217,40 @@
 
     doodler: function(draftImage) {
 
+      var self,
+          draftImageBare = 'draft-image',
+          imageData,
+          imageWidth,
+          imageHeight,
+          imageLink;
+
+      for (var i = 0; i < draftImage.length; i++) {
+
+        self = $(draftImage[i]);
+        imageData = self.data(draftImageBare);
+
+        if (typeof imageData === 'string') {
+
+          imageData = imageData.split('/');
+          imageWidth = parseInt(imageData[0]);
+          imageHeight = parseInt(imageData[1]);
+
+          if (isNaN(imageWidth) || isNaN(imageHeight)) {
+            imageWidth = false;
+            imageHeight = false;
+          }
+        
+          if (imageWidth && imageHeight) {
+            imageLink = this._photoAlbum(imageWidth, imageHeight);
+            self.attr('src', imageLink)
+              .attr('width', imageWidth)
+              .attr('height', imageHeight)
+              .removeAttr(dataTag + draftImageBare);
+          } else{
+            console.log("Please ensure that you specify Width/Height in the format 250/300 for 250px wide by 300px tall")
+          }
+        }
+      }
     },
 
     /**********************************************
@@ -224,6 +263,47 @@
 
     scheduler: function(draftDate) {
       
+    },
+
+    /**********************************************
+      *
+      *  _thesaurus method
+      *
+      *  @param author
+      *
+    **********************************************/
+
+    _thesaurus: function() {
+      var thesaurus = false,
+          author = this.options.author,
+          lebowski = 'lebowskiipsum.com',
+          bacon = 'baconipsum.com';
+
+      switch(author) {
+        case lebowski:
+          break;
+        case bacon:
+          break;
+        default:
+          author = lebowski;
+          break;
+      }
+
+      $.ajax({
+        url: this.options.thesaurus,
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+          thesaurus = data;
+        }
+      });
+      
+      if (thesaurus === false) {
+        console.log('There was an issue with the AJAX request in the _thesaurus method. ' +
+          'Please ensure that ' + this.options.thesaurus + ' is your correct relative path.');
+      } else {
+        return thesaurus[author];
+      }
     },
 
     /**********************************************
@@ -381,32 +461,77 @@
 
     /**********************************************
       *
-      *  _thesaurus method
+      *  _photoAlbum method
       *
-      *  @param author
+      *  @param
       *
     **********************************************/
 
-    _thesaurus: function() {
+    _photoAlbum: function(width, height) {
+      var photoAlbum = false,
+          illustrator = this.options.illustrator,
+          placeHold = 'placehold.it',
+          placeKitten = 'placekitten.com',
+          waterColor,
+          imageLink;
 
-      var thesaurus = false,
-          author = this.options.author;
-
-      $.ajax({
-        url: this.options.thesaurus,
-        dataType: 'json',
-        async: false,
-        success: function(data) {
-          thesaurus = data;
-        }
-      });
-
-      if (thesaurus === false) {
-        console.log('There was an issue with the AJAX request in the _thesaurus method. ' +
-          'Please ensure that ' + this.options.thesaurus + ' is your correct relative path.');
-      } else {
-        return thesaurus[author];
+      switch(illustrator) {
+        case placeHold:
+          break;
+        case placeKitten:
+          break;
+        default:
+          illustrator = placeHold;
+          break;
       }
+
+      waterColor = this._waterColor(illustrator);
+
+      if (illustrator == placeKitten) {
+        imageLink = 'http://placekitten.com/' + waterColor + width + '/' + height;
+      } else {
+        imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
+      }
+
+      return imageLink;
+    },
+
+    /**********************************************
+      *
+      *  _waterColor method
+      *
+      *  @param number
+      *
+      *  @return
+      *
+    **********************************************/
+
+    _waterColor: function(illustrator) {
+      var paint = new Array(),
+          placeKitten = 'placekitten.com',
+          brush;
+
+      if (illustrator == placeKitten) {
+        paint = [false, 'g'];
+      } else {
+        paint = ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'];
+      }
+
+      brush = paint.length;
+      brush = this._randomizer(brush);
+      brush = paint[brush];
+
+      if (brush) {
+        if (illustrator == placeKitten) {
+          brush = brush + '/';
+        } else {
+          brush = '/' + brush + '/fff';
+        }
+      } else {
+        brush = '';
+      }
+
+      return brush;
     },
 
     /**********************************************
