@@ -150,7 +150,6 @@
     **********************************************/
 
     scanner: function (draftRepeat) {
-
       var draftRepeatBare = 'draft-repeat',
           repeatCount;
 
@@ -173,7 +172,6 @@
     **********************************************/
 
     plagerizer: function(draftText) {
-
       var self,
           draftTextBare = 'draft-text',
           textData,
@@ -216,7 +214,6 @@
     **********************************************/
 
     doodler: function(draftImage) {
-
       var self,
           draftImageBare = 'draft-image',
           imageData,
@@ -247,7 +244,7 @@
               .attr('height', imageHeight)
               .removeAttr(dataTag + draftImageBare);
           } else{
-            console.log("Please ensure that you specify Width/Height in the format 250/300 for 250px wide by 300px tall")
+            console.log("Please ensure that you specify Width/Height in the format 250/300 for 250px wide by 300px tall");
           }
         }
       }
@@ -262,7 +259,43 @@
     **********************************************/
 
     scheduler: function(draftDate) {
-      
+      var self,
+          draftDateBare = 'draft-date',
+          dateData,
+          dateRequest;
+
+      for (var i = 0; i < draftDate.length; i++){
+
+        self = $(draftDate[i]);
+        dateData = self.data(draftDateBare);
+
+        if (typeof dateData === 'string') {
+
+          dateData = dateData.split('/');
+
+          dateDataLength = dateData.length;
+
+          for (var x = 0; x < dateData.length; x++) {
+
+            this._datePicker(dateData[x]);
+
+          }
+        }
+      }
+    },
+
+    /**********************************************
+      *
+      *  _randomizer method
+      *
+      *  @param number
+      *
+      *  @return
+      *
+    **********************************************/
+
+    _randomizer: function(number) {
+      return Math.floor(Math.random() * number);
     },
 
     /**********************************************
@@ -279,14 +312,10 @@
           lebowski = 'lebowskiipsum.com',
           bacon = 'baconipsum.com';
 
-      switch(author) {
-        case lebowski:
-          break;
-        case bacon:
-          break;
-        default:
-          author = lebowski;
-          break;
+      switch (author) {
+        case lebowski:                break;
+        case bacon:                   break;
+        default:  author = lebowski;  break;
       }
 
       $.ajax({
@@ -326,7 +355,7 @@
       randomParagraph = this._randomParagraph(textCount, textType, thesaurus);
       paragraphSentences = randomParagraph.length;
 
-      switch(textType) {
+      switch (textType) {
         case paragraphType:
           randomResult = randomParagraph.join(' ');
           break;
@@ -475,14 +504,10 @@
           waterColor,
           imageLink;
 
-      switch(illustrator) {
-        case placeHold:
-          break;
-        case placeKitten:
-          break;
-        default:
-          illustrator = placeHold;
-          break;
+      switch (illustrator) {
+        case placeHold:                     break;
+        case placeKitten:                   break;
+        default:  illustrator = placeHold;  break;
       }
 
       waterColor = this._waterColor(illustrator);
@@ -536,16 +561,75 @@
 
     /**********************************************
       *
-      *  _randomizer method
+      *  _datePicker method
       *
-      *  @param number
+      *  @param dateRequest
       *
       *  @return
       *
     **********************************************/
 
-    _randomizer: function(number) {
-      return Math.floor(Math.random() * number);
+    _datePicker: function(dateRequest) {
+      var dateCheck = dateRequest.toLowerCase(),
+          engineDate = new Date();
+
+      if (dateCheck == 'd' || dateCheck == 'j' || dateCheck == 'l') {
+        if (dateRequest == 'D' || dateCheck == 'l') {
+          engineDate = engineDate.getDay();
+          switch (engineDate) {
+            case 0: engineDate = 'Sunday';    break;
+            case 1: engineDate = 'Monday';    break;
+            case 2: engineDate = 'Tuesday';   break;
+            case 3: engineDate = 'Wednesday'; break;
+            case 4: engineDate = 'Thursday';  break;
+            case 5: engineDate = 'Friday';    break;
+            case 6: engineDate = 'Saturday';  break;
+            default:                          break;
+          }
+          if (dateRequest == 'D') {
+            engineDate = engineDate.substr(0,3);
+          }
+        } else if (dateRequest == 'd') {
+          engineDate = engineDate.getDate();
+          if (engineDate < 10) {
+            engineDate = '0' + engineDate.toString();
+          }
+        } else {
+          engineDate = engineDate.getDate();
+        }
+      } else if (dateCheck == 'm' || dateCheck == 'f' || dateCheck == 'n') {
+        engineDate = engineDate.getMonth();
+        if (dateCheck == 'f' || dateRequest == 'M') {
+          switch (engineDate) {
+            case 0:   engineDate = 'January';   break;
+            case 1:   engineDate = 'February';  break;
+            case 2:   engineDate = 'March';     break;
+            case 3:   engineDate = 'April';     break;
+            case 4:   engineDate = 'May';       break;
+            case 5:   engineDate = 'June';      break;
+            case 6:   engineDate = 'July';      break;
+            case 7:   engineDate = 'August';    break;
+            case 8:   engineDate = 'September'; break;
+            case 9:   engineDate = 'October';   break;
+            case 10:  engineDate = 'November';  break;
+            case 11:  engineDate = 'December';  break;
+            default:                            break;
+          }
+          if (dateRequest == 'M') {
+            engineDate = engineDate.substr(0,3);
+          }
+        } else if (dateRequest == 'm') {
+          engineDate = '0' + (engineDate + 1).toString();
+        } else {
+          engineDate += 1;
+        }
+      } else {
+        engineDate = engineDate.getFullYear();
+        if (dateRequest == 'y') {
+          engineDate = engineDate.toString().substr(2,3);
+        }
+      }
+      return engineDate;
     }
   }
 
