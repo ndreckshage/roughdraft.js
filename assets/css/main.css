@@ -28,6 +28,7 @@ header iframe{
   box-shadow: 0 0 5px 0 #bbb;
   width:300px;
   height:400px;
+  float:left;
 }
 .example_description{
   position:relative;
