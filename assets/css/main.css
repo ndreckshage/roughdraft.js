@@ -1,0 +1,53 @@
+header{
+  margin-bottom:20px;
+}
+header h1{
+  margin-top:50px;
+  font-size:50px;
+  font-weight:lighter;
+  line-height:1;
+}
+header p{
+  width:80%;
+  font-size:18px;
+}
+header iframe{
+  display:block;
+  margin-bottom:5px;
+}
+.example_contain{
+  margin:0 auto 30px;
+  border:3px double #64886c;
+  width:930px;
+}
+.example_element{
+  margin:5px;
+  background: #fff;
+  -webkit-box-shadow: 0 0 5px 0 #bbb;
+  box-shadow: 0 0 5px 0 #bbb;
+  width:300px;
+  height:400px;
+}
+.example_description{
+  position:relative;
+  padding:5px;
+  height:90px;
+  font-size:12px;
+  line-height:14px;
+}
+.example_description p{
+  height:35px;
+}
+.example_description i{
+  display:block;
+  padding:3px;
+  text-align:right;
+}
+p.description{
+  margin-bottom:20px;
+  font-size:18px;
+  color:#b15c3a;
+}
+.uppercase{
+  text-transform:uppercase;
+}

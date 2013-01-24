@@ -1,74 +1,61 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Roughdraft.js : Quickly create an interactive HTML mock-up" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Roughdraft.js</title>
+    <title>RoughDraft.js</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="assets/css/main.css" rel="stylesheet" media="screen">
+    <link href="assets/css/prettify.css" rel="stylesheet" media="screen"/>
   </head>
-
   <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/ndreckshage/roughdraft.js">View on GitHub</a>
-
-          <h1 id="project_title">Roughdraft.js</h1>
-          <h2 id="project_tagline">Quickly create an interactive HTML mock-up</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/ndreckshage/roughdraft.js/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/ndreckshage/roughdraft.js/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+    <div class="page-container">
+      <div class="container">
+        <header>
+          <h1>RoughDraft.js</h1>
+          <p class="muted">Quickly create and prototype a full interactive HTML mock-up without duplicating markup, server-side loops/code, or having to source fake content (lorem ipsum text/images).</p>
+          <iframe src="http://ghbtns.com/github-btn.html?user=ndreckshage&type=follow&count=true"
+              allowtransparency="true" frameborder="0" scrolling="0" width="165" height="20"></iframe>
+          <iframe src="http://ghbtns.com/github-btn.html?user=ndreckshage&repo=roughdraft.js&type=fork&count=true"
+              allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+          <iframe src="http://ghbtns.com/github-btn.html?user=ndreckshage&repo=roughdraft.js&type=watch&count=true"
+              allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
         </header>
+        <section class="information">
+          <p class="description">These 10 lines...</p>
+          <pre class="prettyprint lang-html">
+&lt;section class="example_contain"&gt;
+  &lt;div class="example_element" data-draft-repeat="15"&gt;
+    &lt;img data-draft-image="300/300" /&gt;
+    &lt;div class="example_description"&gt;
+      &lt;p data-draft-text="1/s"&gt;&lt;/p&gt;
+      &lt;i class="muted" data-draft-date="M-r/y"&gt;&lt;/i&gt;
+      &lt;button class="btn btn-warning btn-mini btn-block uppercase" data-draft-text="1/w"&gt;&lt;/button&gt;
+    &lt;/div>
+  &lt;/div>
+&lt;/section>
+          </pre>
+        </section>
+        <p class="description">...produce these 20 blocks.</p>
+        <section class="example_contain">
+          <div class="example_element" data-draft-repeat="15">
+            <img data-draft-image="300/300" />
+            <div class="example_description">
+              <p data-draft-text="1/s"></p>
+              <i class="muted" data-draft-date="M-r/y"></i>
+              <button class="btn btn-warning btn-mini btn-block uppercase" data-draft-text="1/w"></button>
+            </div>
+          </div>
+        </section>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.masonry.min.js"></script>
+        <script src="assets/js/jquery.roughdraft.0.1.0.min.js"></script>
+        <script src="assets/js/prettify.js"></script>
+        <script src="assets/js/main.js"></script>
+      </div>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Roughdraft.js maintained by <a href="https://github.com/ndreckshage">ndreckshage</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
+
+<!-- <a id="forkme_banner" href="https://github.com/ndreckshage/roughdraft.js">View on GitHub</a> -->
+<!-- <a class="zip_download_link" href="https://github.com/ndreckshage/roughdraft.js/zipball/master">Download this project as a .zip file</a> -->
+<!-- <a class="tar_download_link" href="https://github.com/ndreckshage/roughdraft.js/tarball/master">Download this project as a tar.gz file</a> -->
