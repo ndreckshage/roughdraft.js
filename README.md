@@ -1,7 +1,7 @@
 RoughDraft.js
 =============
 
-See live demo [here](http://ndreckshage.github.com/roughdraft.js/). -- NOT YET AVAILABLE
+[LIVE DEMO](http://ndreckshage.github.com/roughdraft.js/)
 
 Auto-generates content based on data attributes in HTML.
 
@@ -117,3 +117,41 @@ $(window).roughDraft({
   }
 });
 ```
+
+Possible ideas for contribution
+-----------
+*not sure how these would all work, just brainstorming...*
++ Refactor anything
++ More lorem ipsum libraries
++ More image generators
++ Get it working with pagination/infinite scroll
++ data-draft-user (generates a fake name/email etc)
++ data-draft-number (generates random numbers)
++ data-draft-form (generates a form)
++ data-draft-time (random time etc)
++ data-draft-tweet (pull in random tweet from certain accounts)
++ data-draft-rss (pulls in rss feed)
++ data-draft-video (youtube, vimeo)
++ data-draft-song (soundcloud etc)
++ data-draft-quote (like lorem ipsum but blockquotes)
+
+*other libraries that could be included*
++ flickholdr.com (image)
++ placedog.com (image)
++ lorempixel.com (image)
++ placezombies.com (image)
++ rndimg.com (image)
++ lipsum.com (text)
++ lorizzle.nl (text)
++ slipsum.com (text)
++ robotipsum.com (text)
++ spaceipsum.com (text)
++ hipsteripsum.com (text)
++ tunaipsum.com (text)
++ veggieipsum.com (text)
++ teapartyipsum.com (text)
++ fillerati.com (text)
+
+__Lorem Ipsum Tool__
+
+In the tools section, I made a simple script to help convert lorem ipsum text into JSON data that the roughdraft plugin can read.
