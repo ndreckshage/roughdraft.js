@@ -2,7 +2,8 @@ header{
   margin-bottom:20px;
 }
 header h1{
-  margin-top:50px;
+  display:inline-block;
+  margin:30px 10px 10px 0;
   font-size:50px;
   font-weight:lighter;
   line-height:1;
