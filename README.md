@@ -1,7 +1,7 @@
 RoughDraft.js
 =============
 
-See live demo [here](http://ndreckshage.github.com/roughdraft.js/).
+See live demo [here](http://ndreckshage.github.com/roughdraft.js/). -- NOT YET AVAILABLE
 
 Auto-generates content based on data attributes in HTML.
 
