@@ -8,13 +8,18 @@ header h1{
   font-weight:lighter;
   line-height:1;
 }
-header p{
-  width:80%;
+header p,
+footer p{
+  width:600px;
   font-size:18px;
+  line-height:24px;
+  margin:10px 0;
 }
-header iframe{
-  display:block;
-  margin-bottom:5px;
+header img{
+  position:absolute;
+  top:0;
+  right:0;
+  border:0;
 }
 .example_contain{
   margin:0 auto 30px;
@@ -52,4 +57,22 @@ p.description{
 }
 .uppercase{
   text-transform:uppercase;
+}
+li{
+  color:#666;
+}
+li a,
+li a:hover,
+li a:active,
+li a:visited,
+footer a,
+footer a:hover,
+footer a:active,
+footer a:visited{
+  color:#64886c;
+  text-decoration:none;
+}
+p.muted{
+  color:#666;
+  font-style:italic;
 }
