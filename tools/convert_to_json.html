@@ -4,33 +4,33 @@
   <meta charset="utf-8">
   <title>Convert to JSON</title>
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" type="text/css" href="/css/roughdraft.css">
-  <script type="text/javascript" src="/js/infrastructure/jquery-1.9.0.min.js"></script>
-  <script type="text/javascript" src="/js/infrastructure/jquery.roughdraft/jquery.roughdraft.0.1.0.js"></script>
+  <script type="text/javascript" src="/demo/js/infrastructure/jquery-1.9.0.min.js"></script>
   <script type="text/javascript" src="/tools/convert_to_json.js"></script>
 </head>
 <body>
 
-<!-- 
-  NOTES
+  <section>
+    <header>NOTES</header>
+    <ul>
+      <li>this is a hacky tool to convert lorem ipsum text into JSON</li>
+      <li>we need well formed JSON for the lorem ipsum library to work</li>
+      <li>TO DO: find a much better way to do this...</li>
+    </ul>
+  </section>
+  <section>
+    <header>HOW TO</header>
+    <ul>
+      <li>get 20 or so paragraphs from lorem ipsum generator of your choice</li>
+      <li>run the text through <a href="http://www.word2text.com/" target="_blank">http://www.word2text.com</a> or a similar site</li>
+      <li>copy and paste the resulting text below 1 PARAGRAPH AT A TIME</li>
+      <li>press convert and copy the result into roughdraft.thesaurus.json</li>
+      <li>some editing may be required (search/fix "." and "Mr."/"Mrs." etc)</li>
+    </ul>
+  </section>
 
-  - this is a hacky tool to convert lorem ipsum text into JSON
-  - we need well formed JSON for the lorem ipsum library to work
-
-  HOW TO
-
-  - get 20 or so paragraphs from lorem ipsum generator of your choice
-  - run the text through http://www.word2text.com/ or a similar site
-  - copy and paste the resulting text in the below convert div a paragraph at a time
-  - reload the page (/tools/convert_to_json.html) and copy the text into roughdraft.thesaurus.json
-  - some editing may be required (search/fix "." and "Mr."/"Mrs." etc)
-
-  TO DO
-
-  - find a much better way to do this...
--->
-
-  <p class="convert"></p>
+  <textarea id="convert" style="width:100%;height:150px;" placeholder="Text to convert..."></textarea>
+  <button id="converter">convert</button>
+  <textarea id="converted" style="width:100%;height:150px;" placeholder="Will return here..."></textarea>
 
 </body>
 </html>
