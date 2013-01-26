@@ -1,7 +1,7 @@
 $(function(){
 
   $(window).roughDraft({
-    'author' : 'baconipsum.com',
+    'author' : 'veggieipsum.com',
     'illustrator' : 'placehold.it',
     'thesaurus': '/roughdraft.thesaurus.json'
   });

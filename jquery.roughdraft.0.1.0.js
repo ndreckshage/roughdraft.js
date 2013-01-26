@@ -389,12 +389,14 @@
       var thesaurus = false,
           author = this.options.author,
           lebowski = 'lebowskiipsum.com',
-          bacon = 'baconipsum.com';
+          bacon = 'baconipsum.com',
+          veggie = 'veggieipsum.com';
 
       // if the auther request (from options), does not match a library, return lebowski default
       switch (author) {
         case lebowski:                break;
         case bacon:                   break;
+        case veggie:                  break;
         default:  author = lebowski;  break;
       }
 

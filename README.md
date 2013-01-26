@@ -148,7 +148,7 @@ Possible ideas for contribution
 + spaceipsum.com (text)
 + hipsteripsum.com (text)
 + tunaipsum.com (text)
-+ veggieipsum.com (text)
++ ~~veggieipsum.com (text)~~ *DONE*
 + teapartyipsum.com (text)
 + fillerati.com (text)
 
