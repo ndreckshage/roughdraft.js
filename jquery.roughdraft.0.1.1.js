@@ -2,7 +2,7 @@
 /******************************************************/
 /*                                                    */
 /*  jQuery RoughDraft.js Plugin                       */
-/*  Version 0.1.0                                     */
+/*  Version 0.1.1                                     */
 /*                                                    */
 /*  Copyright Nick Dreckshage, licensed GPL & MIT     */
 /*  https://github.com/ndreckshage/roughdraft.js      */
@@ -56,8 +56,9 @@
 
   $.RedPen.settings = {
     author      : 'lebowskiipsum.com',
-    thesaurus   : '/roughdraft.thesaurus.json',
     illustrator : 'placehold.it',
+    thesaurus   : 'baconipsum.com',
+    customIpsum : false,
     calendar: {
       dayNumber        : 'j',
       dayNumberZeros   : 'd',
