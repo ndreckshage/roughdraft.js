@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "main": ["./jquery.roughdraft.0.1.0.min.js", "./roughdraft.thesaurus.json"],
   "dependencies": {
-    "jquery": "~1.9.0"
+    "jquery": "~1.7.2"
   }
 }

@@ -32,6 +32,6 @@
     "docs": "https://github.com/ndreckshage/roughdraft.js/wiki",
     "download": "https://github.com/ndreckshage/roughdraft.js/zipball/master",
     "dependencies": {
-        "jquery": ">=1.7"
+        "jquery": ">=1.7.2"
     }
 }
