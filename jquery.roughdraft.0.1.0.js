@@ -73,7 +73,7 @@
       yearNumberTwo    : 'y'
     },
     callback: $.noop,
-    ajaxType: 'GET'
+    ajaxType: 'GET',
   }
 
   /**********************************************
@@ -152,6 +152,7 @@
       if ($draftDate.length) {
         this.scheduler($draftDate);
       }
+      callback(); //user callback
     },
 
     /**********************************************
@@ -405,23 +406,22 @@
       }
 
       // make the ajax call based on the default/user option url
-      // async off since that conflicts with page load
-      $.ajax({
-        url: this.options.thesaurus,
+      // keep syncronous
+      $.ajax(this.options.thesaurus, {
         dataType: 'json',
         async: false,
-        type: this.options.ajaxType
-        success: function(data) {
-          thesaurus = data;
-        }
-      });
-      
-      // if ajax failed, log message to console
-      if (thesaurus === false) {
+        type: this.options.ajaxType        
+      })
+      .fail(function(){
         console.log('There was an issue with the AJAX request in the _thesaurus method. ' +
           'Please ensure that ' + this.options.thesaurus + ' is your correct relative path.');
-      } else {
-        // else return the lorem ipsum data
+      })
+      .done(function(data){
+        thesaurus = data;
+      });      
+      
+      // if ajax failed, log message to console
+      if (thesaurus) {        
         return thesaurus[author];
       }
     },
