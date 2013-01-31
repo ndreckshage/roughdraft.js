@@ -43,7 +43,6 @@
     *  -- thesaurus is location of json lorem ipsum library
     *  -- illustrator determines which placeholder image site is to be used
     *  -- calendar allows people to use different date tags in html. default uses PHP date settings
-    *  -- callback is called after all operations are completed, if specified
     *  -- ajaxType allows the user to override the default ajax type if necessary. default is GET
     *
   **********************************************/
@@ -72,7 +71,6 @@
       yearNumber       : 'Y',
       yearNumberTwo    : 'y'
     },
-    callback: $.noop,
     ajaxType: 'GET',
   }
 
@@ -153,7 +151,6 @@
       if ($draftDate.length) {
         this.scheduler($draftDate);
       }
-      this.options.callback(); //user callback
     },
 
     /**********************************************
