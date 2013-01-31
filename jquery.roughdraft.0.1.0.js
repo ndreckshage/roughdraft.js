@@ -142,6 +142,7 @@
 
       // data-draft-text taps into lorem ipsum library in roughdraft.thesaurus.json
       if ($draftText.length) {
+        this.thesaurus = this._thesaurus(); //caching thesaurus
         this.plagerizer($draftText);
       }
       // data-draft-image taps into placeholder image library
@@ -152,7 +153,7 @@
       if ($draftDate.length) {
         this.scheduler($draftDate);
       }
-      callback(); //user callback
+      this.options.callback(); //user callback
     },
 
     /**********************************************
@@ -413,15 +414,14 @@
         type: this.options.ajaxType        
       })
       .fail(function(){
+        // if ajax failed, log message to console
         console.log('There was an issue with the AJAX request in the _thesaurus method. ' +
           'Please ensure that ' + this.options.thesaurus + ' is your correct relative path.');
       })
       .done(function(data){
         thesaurus = data;
       });      
-      
-      // if ajax failed, log message to console
-      if (thesaurus) {        
+      if (thesaurus) {   
         return thesaurus[author];
       }
     },
@@ -440,11 +440,10 @@
     **********************************************/
 
     _openToRandomPage: function(textCount, textType) {
-      var thesaurus = this._thesaurus(),
+      var thesaurus = this.thesaurus,
           paragraphSentences,
           randomParagraph = new Array(),
           randomResult = new String();
-
       // every texttype needs a paragraph, pass the textcount, type and json library to the paragraph method
       randomParagraph = this._randomParagraph(textCount, textType, thesaurus);
       // count the number of sentences of the returned paragraph
@@ -487,12 +486,12 @@
       *
     **********************************************/
 
-    _randomParagraph: function(textCount, textType, thesaurus) {
-      var totalParagraphs = thesaurus.length,
+    _randomParagraph: function(textCount, textType) {
+      var thesaurus = this.thesaurus,
+          totalParagraphs = thesaurus.length,
           randomParagraphIndex,
           currentParagraph,
           randomParagraph = new Array();
-
       // this method is called by all text types
       // if not called by a paragraph type, only 1 paragraphy needs to be returned
       if (textType != this.scopeVar.paragraphType) {
@@ -501,26 +500,19 @@
         randomParagraphIndex = this._randomizer(totalParagraphs);
         // cherry pick the 1 paragraph based on the random index, and then select 1st index ([0], theres only 1)
         // this will return a first level array of the paragraphs sentences
-        randomParagraph = thesaurus.splice(randomParagraphIndex, 1)[0];
+        // kill splicing, just pick random paragraph each time
+        randomParagraph = thesaurus[randomParagraphIndex];
       } else {
         
         // if paragraphs are requested, several may need to be returned
         // return a new random paragraph while the text count is > 0
-        while (textCount > 0) {
-
-          // if a bunch of paragraphs are requested and looped through
-          // rebuild the paragraphs based on the ipsum library
-          if (totalParagraphs <= 0) {
-            // call the thesaurus
-            thesaurus = this._thesaurus();
-            // and reset the count
-            totalParagraphs = thesaurus.length;
-          }
+        while (textCount > 0) {          
           
           // randomize the paragraph index based on total paragraphs left
           randomParagraphIndex = this._randomizer(totalParagraphs);
           // pick a paragraph, and pull it out of the array
-          currentParagraph = thesaurus.splice(randomParagraphIndex, 1)[0];
+          // ^ don't pull it out of the array to increase performance. we're just prototyping, after all!
+          currentParagraph = thesaurus[randomParagraphIndex];
           // concatenate the current paragraph to the total list within the while loop
           randomParagraph = randomParagraph.concat(currentParagraph);
 
