@@ -1,7 +1,7 @@
 $(function(){
 
   // DEFAULT OPTIONS
-  // $(window).roughDraft();
+  $(window).roughDraft();
 
   // TEXT API + IMAGE ALT
   // $(window).roughDraft({
@@ -10,10 +10,10 @@ $(function(){
   // });
 
   // CUSTOM LIBRARY
-  $(window).roughDraft({
-    author      : 'lorem',
-    customIpsum : true
-  });
+  // $(window).roughDraft({
+  //   author      : 'lorem',
+  //   customIpsum : true
+  // });
 
   // FULL OPTIONS
   // $(window).roughDraft({

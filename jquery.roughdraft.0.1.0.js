@@ -77,7 +77,8 @@
       monthTextThree   : 'M',
       yearNumber       : 'Y',
       yearNumberTwo    : 'y'
-    }
+    },
+    ajaxType: 'GET'
   }
 
   /************************************************
@@ -402,9 +403,9 @@
           opt = this.options;
 
       $.ajax({
-        type: 'GET',
         url: url,
         dataType: type,
+        type: opt.ajaxType,
         timeout: opt.timeout,
         // if the call was successful, send the data to method to format
         success: function(data) {
@@ -440,6 +441,7 @@
         url: opt.customIpsumPath,
         dataType: 'json',
         async: false,
+        type: opt.ajaxType,
         success: function(data) {
           // send to the speed reader method if ajax returned correctly + author library exists
           if (data[opt.author]) {
