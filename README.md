@@ -33,19 +33,20 @@ The plugin is called by
 
 ```javascript
 $(window).roughDraft({
-  'author' : 'baconipsum.com',
-  'illustrator' : 'placehold.it',
-  'thesaurus': '/roughdraft.thesaurus.json'
+  'author' : 'bacon',
+  'illustrator' : 'placehold'
 });
 ```
 
+*full options below*
+
 With the main options of author + illustrator, of the developers preferred lorem ipsum + image generator libraries.
 
-Currently, Lebowskiipsum (Big Lebowski) and Baconipsum (TEXT), and Placehold.it and Placekitten.com (IMAGES) are supported, but more can be added.
+Currently, BaconIpsum, LoremIpsum and HipsterIpsum (TEXT) + Placehold.it and Placekitten.com (IMAGES) are supported, but more can be added.
 
-Change the thesaurus location to match the relative location in your environment.
+The content is retreived via JSONP/JSON APIs, but there is also the option to maintain a local lorem ipsum library, in roughdraft.thesaurus.json
 
-This then enables the data-draft tags:
+The plugin then enables the data-draft tags:
 
 **data-draft-repeat**
 
@@ -99,23 +100,18 @@ The first span tag will return "Wed Jan 2013" and the second will return "Mar 7"
 The date format uses PHP's date format (my preference), and can be changed through initialization options as so.
 
 ```javascript
-$(window).roughDraft({
-  'author' : 'baconipsum.com',
-  'illustrator' : 'placehold.it',
-  'thesaurus': '/roughdraft.thesaurus.json',
-  'calendar': {
-    'dayNumber'        : 'j',
-    'dayNumberZeros'   : 'd',
-    'dayText'          : 'l',
-    'dayTextThree'     : 'D',
-    'monthNumber'      : 'n',
-    'monthNumberZeros' : 'm',
-    'monthText'        : 'F',
-    'monthTextThree'   : 'M',
-    'yearNumber'       : 'Y',
-    'yearNumberTwo'    : 'y'
-  }
-});
+'calendar': {
+  'dayNumber'        : 'j',
+  'dayNumberZeros'   : 'd',
+  'dayText'          : 'l',
+  'dayTextThree'     : 'D',
+  'monthNumber'      : 'n',
+  'monthNumberZeros' : 'm',
+  'monthText'        : 'F',
+  'monthTextThree'   : 'M',
+  'yearNumber'       : 'Y',
+  'yearNumberTwo'    : 'y'
+}
 ```
 
 Possible ideas for contribution
@@ -135,23 +131,53 @@ Possible ideas for contribution
 + data-draft-song (soundcloud etc)
 + data-draft-quote (like lorem ipsum but blockquotes)
 
-*other libraries that could be included*
+*other libraries that could be included (with author permission)*
 + flickholdr.com (image)
 + placedog.com (image)
 + lorempixel.com (image)
 + placezombies.com (image)
 + rndimg.com (image)
-+ lipsum.com (text)
++ ~~lipsum.com (text)~~ *DONE*
 + lorizzle.nl (text)
 + slipsum.com (text)
 + robotipsum.com (text)
 + spaceipsum.com (text)
 + hipsteripsum.com (text)
 + tunaipsum.com (text)
-+ ~~veggieipsum.com (text)~~ *DONE*
++ veggieipsum.com (text)
 + teapartyipsum.com (text)
 + fillerati.com (text)
 
 __Lorem Ipsum Tool__
 
-In the tools section, I made a simple script to help convert lorem ipsum text into JSON data that the roughdraft plugin can read.
+In the tools section, I made a simple script to help convert lorem ipsum text into JSON data that the roughdraft plugin can read. Download the files and navigate to [/tools/convert_to_json.html](/tools/convert_to_json.html). It should make it pretty easy to generate your own lorem ipsum library if you'd prefer quicker loads/a favorite ipsum library.
+
+__Full customization options__
+
+```javascript
+$(window).roughDraft({
+  // the site to generate lorem ipsum from, for both jsonp + custom options
+  author      : 'bacon',
+  // the site to generate placeholder images from
+  illustrator : 'placehold',
+  // true if customIpsum library is preferred over jsonp api libraries
+  customIpsum : false,
+  // set timeout for JSONP requests
+  timeout: 5000,
+  // if customIpsum is true, relative url of library is necessary
+  customIpsumPath: '/roughdraft.thesaurus.json',
+  // calendar data formatting (default using PHP formatting)
+  calendar: {
+    dayNumber        : 'j',
+    dayNumberZeros   : 'd',
+    dayText          : 'l',
+    dayTextThree     : 'D',
+    monthNumber      : 'n',
+    monthNumberZeros : 'm',
+    monthText        : 'F',
+    monthTextThree   : 'M',
+    yearNumber       : 'Y',
+    yearNumberTwo    : 'y'
+  }
+});
+```
