@@ -135,6 +135,16 @@
       // sets up the full scope variables
       this.scopeVar = $.RedPen.scopeVar;
 
+      /**
+       * set up custom expression so we can filter data-draft-repeat
+       * and return parent matches only
+       */
+      $.extend($.expr[':'], {
+        parentsFirst: function(a,i,m){
+          return $(a).parents(m[3]).length < 1;
+        }
+      });
+
       // data-draft-repeat will act as a loop for the div and inner html/js events
       // buils the markup, necessary to call this first, and repeat all necessary divs, prior to using other methods
       if ($draftRepeat.length) {
@@ -179,28 +189,61 @@
       *  @param draftRepeat -- object -- data selector passed in through _create
       *
     **********************************************/
-    scanner: function(draftRepeat) {
+    scanner: function($draftRepeat) {
       var $self,
+          $draftRepeatTree,
           draftRepeatBare = 'draft-repeat',
-          repeatCount;
+          repeatCount,
+          failSafe = 0;
 
-      // looping used throughout rather than $.each to preserve objects
-      // this will loop through all dom elements that use the data-draft-repeat tag
-      for (var i = 0; i < draftRepeat.length; i++) {
+      /**
+       * to repeat the elements in fully recursive way, use a custom selector to grab all top level
+       * repeats first, and then traverse down the tree, repeating their children nodes
+       *
+       * for example --
+       * <div data-draft-repeat="3">
+       *   <span data-draft-repeat="2">
+       * </div>
+       */
 
-        // set self to the current dom node being repeated
-        $self = $(draftRepeat[i]);
-        // access the value (ex. data-draft-repeat="5")
+      // set the tree to the top level elements that we want to repeat
+      $draftRepeatTree = $draftRepeat.filter(':parentsFirst([data-draft-repeat])');
+
+      /**
+       * repeat the outer elements first, then remove their properties
+       * then the children nodes will be set as the new top tree
+       */
+      while ($draftRepeatTree.length > 0) {
+        $self = $($draftRepeatTree[0]);
         repeatCount = $self.data(draftRepeatBare);
-        // remove the data-draft-repeat-tags from the dom
-        $self.removeAttr(this.scopeVar.dataTag + draftRepeatBare);
-        
-        // loop through the count of requested repeats        
-        for (var x = 0; x < repeatCount - 1; x++){
 
+        /**
+         * remove the data-draft-repeat-tags from the dom
+         * NOTE -- this is now important to avoid infinte loops
+         */
+        $self.removeAttr(this.scopeVar.dataTag + draftRepeatBare);
+
+        // loop through the count of requested repeats
+        for (var x = 0; x < repeatCount; x++) {
           // clone true true (with all deep data + events) to maintain node's JS, and insert into dom
           $self.clone(true, true).insertAfter($self);
         }
+
+        // reset the variables with the data-repeat tags removed, and repeat loop until 0 instances
+        $draftRepeat = $('[data-draft-repeat]');
+        $draftRepeatTree = $draftRepeat.filter(':parentsFirst([data-draft-repeat])');
+
+        /**
+         * this is less than ideal, and shouldn't be hit.
+         * only hit if $self.removeAttr(this.scopeVar.dataTag + draftRepeatBare) not hit
+         * + $draftRepeat/$draftRepeatTree do no update on each pass
+         */
+        if (failSafe >= 1000) {
+          console.log('There was an infinite loop error. Please check the loop if you are editing it, or report the' +
+            ' error here -- https://github.com/ndreckshage/roughdraft.js/issues/new');
+          break;
+        }
+        failSafe++;
       }
     },
 
@@ -275,8 +318,8 @@
       *  @param draftImage -- object -- data selector passed in through _init
       *
     **********************************************/
-    doodler: function(draftImage) {
-      var self,
+    doodler: function($draftImage) {
+      var $self,
           draftImageBare = 'draft-image',
           imageData,
           imageWidth,
@@ -284,12 +327,12 @@
           imageLink;
 
       // this will loop through all dom elements that use the data-draft-image tag
-      for (var i = 0; i < draftImage.length; i++) {
+      for (var i = 0; i < $draftImage.length; i++) {
 
         // set self to the current dom node being repeated
-        self = $(draftImage[i]);
+        $self = $($draftImage[i]);
         // access the value (ex. data-draft-image="300/500")
-        imageData = self.data(draftImageBare);
+        imageData = $self.data(draftImageBare);
 
         // check that the value is in the correct format
         if (typeof imageData === 'string') {
@@ -313,10 +356,10 @@
             // pass in the width and height and it will return a link
             imageLink = this._photoAlbum(imageWidth, imageHeight);
             // set the link to the img src attribute, hard code the width + height, and remove the data-draft-image tag
-            self.attr('src', imageLink)
-              .attr('width', imageWidth)
-              .attr('height', imageHeight)
-              .removeAttr(this.scopeVar.dataTag + draftImageBare);
+            $self.attr('src', imageLink)
+                 .attr('width', imageWidth)
+                 .attr('height', imageHeight)
+                 .removeAttr(this.scopeVar.dataTag + draftImageBare);
           } else{
             // if imageWidth/imageHeight are false, log an error to the console
             console.log("Please ensure that you specify Width/Height in the format 250/300 for 250px wide by 300px tall");
@@ -338,20 +381,20 @@
       *  @param draftDate -- object -- data selector passed in through _init
       *
     **********************************************/
-    scheduler: function(draftDate) {
-      var self,
+    scheduler: function($draftDate) {
+      var $self,
           draftDateBare = 'draft-date',
           dateData,
           dateRequest,
           formatDate = new String();
 
       // this will loop through all dom elements that use the data-draft-date tag
-      for (var i = 0; i < draftDate.length; i++){
+      for (var i = 0; i < $draftDate.length; i++){
 
         // set self to the current dom node being repeated
-        self = $(draftDate[i]);
+        $self = $($draftDate[i]);
         // access the value (ex. data-draft-date="M")
-        dateData = self.data(draftDateBare);
+        dateData = $self.data(draftDateBare);
 
         // check that the data is interpreted as string
         if (typeof dateData === 'string') {
@@ -372,8 +415,9 @@
             x != dateData.length - 1 ? formatDate += ' ' : '';
           }
 
-          // set the text of the calling node equal to the fully formatted date
-          self.text(formatDate);
+          // remove the plugin instructions and set the text of the calling node equal to the fully formatted date
+          $self.removeAttr(this.scopeVar.dataTag + draftDateBare);
+          $self.text(formatDate);
         }
       }
     },

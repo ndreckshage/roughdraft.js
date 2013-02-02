@@ -10,6 +10,19 @@ Auto-generates content based on data attributes in HTML.
 + data-draft-image
 + data-draft-date
 
+**Lorem Ipsum remote APIs** *("library")*
++ "lorem" : "http://www.randomtext.me/api/lorem/p-20/40-50"
++ "bacon" : "https://baconipsum.com/api/?type=all-meat&paras=20&start-with-lorem=1"
++ "hipster" : "http://hipsterjesus.com/api?paras=20&type=hipster-centric&html=false"
+
+**Lorem Ipsum local JSON** *("bookstore")*
++ "lorem"
++ *add your favorite ipsum generator with JSON converter/add to repository library*
+
+**Image generators**
++ "placekitten" : "http://placekitten.com/ + params"
++ "placehold" : "http://placehold.it/ + params"
+
 Allows developers to quickly mockup a design using minimal HTML markup + JS, without server side scripting, and without having to navigate to image/text lorem ipsum generators.
 
 The layout prototype ideally will cut down on development time by figuring out layout kinks, prior to the heavy code lifting.
