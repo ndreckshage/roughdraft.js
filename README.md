@@ -1,4 +1,4 @@
-RoughDraft.js
+RoughDraft.js v0.1.1
 =============
 
 [LIVE DEMO](http://ndreckshage.github.com/roughdraft.js/)

@@ -2,7 +2,7 @@
 * ****************************************************** *
 * *                                                    * *
 * *  jQuery RoughDraft.js Plugin                       * *
-* *  Version 0.1.0                                     * *
+* *  Version 0.1.1                                     * *
 * *                                                    * *
 * *  Copyright Nick Dreckshage, licensed GPL & MIT     * *
 * *  https://github.com/ndreckshage/roughdraft.js      * *
