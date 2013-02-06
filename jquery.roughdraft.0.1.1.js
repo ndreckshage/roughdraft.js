@@ -93,7 +93,9 @@
     dataTag       : 'data-',
     paragraphType : 'p',
     sentenceType  : 's',
-    wordType      : 'w'
+    wordType      : 'w',
+    digitRangeType: '-',
+    currencyType  : '$'
   }
 
   /***********************************************
@@ -162,6 +164,7 @@
     _init : function() {
       var $draftText = $('[data-draft-text]'),
           $draftImage = $('[data-draft-image]'),
+          $draftNumber = $('[data-draft-number]'),
           $draftDate = $('[data-draft-date]');
 
       // data-draft-text taps into lorem ipsum library in roughdraft.thesaurus.json
@@ -175,6 +178,10 @@
       // data-draft-date generates current/random date in various formats
       if ($draftDate.length) {
         this.scheduler($draftDate);
+      }
+      // data-draft-number generates random numbers
+      if ($draftNumber.length) {
+        this.lottery($draftNumber);
       }
     },
 
@@ -245,6 +252,86 @@
         }
         failSafe++;
       }
+    },
+
+    /**********************************************
+      * lottery method
+      *
+      * -- handles instances of data-draft-number and inserts as number into calling node
+      * -- numbers can be formatted by data-draft-number="$/2-3/0" (ex: Format as money, range of two to three digits, no decimal: $26 or $113)
+      * -- format (separated by '/'): 
+                  - optional. if first char is '$', dollar sign will be appended
+                  - required. include either a range of total digits or a single digit length: "2-3" will return a number of either 2 or 3 digits in length. "4" will return a 4-digit number.
+                  - optional. include the number of decimal places to include. single number: "2-3/4" will return a 2 or 3 digit number with 4 decimal places
+
+    **********************************************/
+    lottery: function(elems) {
+      var opt = this.options
+        , scope = this.scopeVar     
+        , that = this
+        , draftTextBare = 'draft-number'   
+      ;
+      elems.each(function(i, elem) {
+        var formatObj, str = '', fromSeed, toSeed, decimalSeed;
+        elem = $(elem);
+        formatObj = that._parseNumberFormat(elem.data(draftTextBare));
+        formatObj.isCurrency && (str = '$'); //add dollar sign if currency
+        fromSeed = that._getSeed(formatObj.digitMin); //determine low bound for number of digits
+        toSeed = that._getSeed(formatObj.digitMax); //determine high bound for number of digits
+        decimalSeed = that._getSeed(formatObj.decimalNumber); //get decimal
+                
+        str += fromSeed === toSeed ? that._randomizer(fromSeed) : that._randomizer(fromSeed - 1, toSeed); //get number within given range
+        
+        formatObj.decimalNumber && (str += '.' + that._randomizer(decimalSeed)); //add decimal if included
+        elem.text(str); //add to obj 
+      });  
+    },
+
+    /**********************************************
+      * _parseNumberFormat method
+      *
+      * -- pulls out parts of formatting string 
+      * -- returns object with user preferences
+      * -- if user passes no preferences, returns default values
+
+    **********************************************/
+
+    _parseNumberFormat: function(str) {
+      var scope = this.scopeVar
+        , parts = (str += '').split('/')
+        , digits
+        , data = {
+            isCurrency: parts[0] === scope.currencyType //money if dollar sign is first
+            , digitMin: 1
+            , digitMax: 1
+            , decimalNumber: 0            
+        }
+      ;      
+      if (str.length) { //parse string if there is one. if not, return defaults
+        if (data.isCurrency) { //get rid of dollar sign          
+          parts = parts.slice(1, 3);
+        }
+        //at this point, parts[0] will consist of something like 2-4 or 3
+        digits = parts[0].split(scope.digitRangeType);
+        data.digitMin = +digits[0] > 0 ? +digits[0] : 1; //minimum is 1 digit, of course
+        data.digitMax = +digits[1] || data.digitMin; //if no max is supplied, just default to digit min
+        data.decimalNumber = parts[1] ? +parts[1] : 0; //if it exists, parts[1] will be the number of decimals        
+      }
+      return data; 
+    },
+
+    /**********************************************
+      * _getSeed method
+      *
+      * -- returns a number with a '1' trailed by the given number of zeros, e.g. 1000
+
+    **********************************************/
+    _getSeed: function(num) {
+      var str = '1';
+      for (var i = 0; i < num; i++) {
+        str += '0';
+      }
+      return +str;
     },
 
     /**********************************************
@@ -1114,16 +1201,18 @@
     /**********************************************
       *
       *  _randomizer method
+      *   now allowing ranges!
       *
-      *  @param number -- number -- of the whatever method is calling for randomization
-      *
+      *  @param from -- number -- minimum amount if to is provided, otherwise maximum amount
+      *  @param to -- number -- maximum amount
       *  @return -- number -- to the calling method
       *
     **********************************************/
-    _randomizer: function(number) {
+    _randomizer: function(from, to) {
 
       // randomize and round down for number requested
-      return Math.floor(Math.random() * number);
+      to = to || 0;
+      return Math.floor(Math.random()*(to - from + 1) + from);
     },
 
     /**********************************************
