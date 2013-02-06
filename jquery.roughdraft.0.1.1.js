@@ -273,14 +273,14 @@
       ;
       elems.each(function(i, elem) {
         var formatObj, str = '', fromSeed, toSeed, decimalSeed;
-        elem = $(elem);
+        elem = $(elem);        
         formatObj = that._parseNumberFormat(elem.data(draftTextBare));
         formatObj.isCurrency && (str = '$'); //add dollar sign if currency
-        fromSeed = that._getSeed(formatObj.digitMin); //determine low bound for number of digits
+        fromSeed = that._getSeed(fromSeed === toSeed ? formatObj.digitMin : formatObj.digitMin - 1); //determine low bound for number of digits
         toSeed = that._getSeed(formatObj.digitMax); //determine high bound for number of digits
         decimalSeed = that._getSeed(formatObj.decimalNumber); //get decimal
                 
-        str += fromSeed === toSeed ? that._randomizer(fromSeed) : that._randomizer(fromSeed - 1, toSeed); //get number within given range
+        str += fromSeed === toSeed ? that._randomizer(fromSeed / 10, toSeed) : that._randomizer(fromSeed, toSeed); //get number within given range
         
         formatObj.decimalNumber && (str += '.' + that._randomizer(decimalSeed)); //add decimal if included
         elem.text(str); //add to obj 
@@ -1211,8 +1211,8 @@
     _randomizer: function(from, to) {
 
       // randomize and round down for number requested
-      to = to || 0;
-      return Math.floor(Math.random()*(to - from + 1) + from);
+      to = to || from / 10;
+      return Math.floor(Math.random()*(to - from) + from);
     },
 
     /**********************************************
@@ -1224,7 +1224,7 @@
       *  @return -- array -- cleaned array
       *
     **********************************************/
-    _removeEmptyIndexes: function(text){
+    _removeEmptyIndexes: function(text){ 
       // this gets rid of any blank indexes
       return $.grep(text,function(n){
         return(n);
