@@ -9,6 +9,7 @@ Auto-generates content based on data attributes in HTML.
 + data-draft-text
 + data-draft-image
 + data-draft-date
++ data-draft-number
 
 **Lorem Ipsum remote APIs** *("library")*
 + "lorem" : "http://www.randomtext.me/api/lorem/p-20/40-50"
@@ -127,6 +128,18 @@ The date format uses PHP's date format (my preference), and can be changed throu
 }
 ```
 
+**data-draft-number**
+
+```html
+<span data-draft-number="$/digits/decimal"></span>
+<span data-draft-number="$/3-4/2"></span>
+<span data-draft-number="3"></span>
+```
+
+Will insert a randomized number into calling elements with requested options. The first option ($) is optional to signify as money. The second (digits) is either a single number 3 (3 digits) or range (3-5) to allow for greater number variance, and the last (decimal) to add decimals onto the number.
+
+The 2nd span tag will return '$234.50' or '$9331.99', etc. The 3rd tag will return '144', etc.
+
 Possible ideas for contribution
 -----------
 *not sure how these would all work, just brainstorming...*
@@ -135,7 +148,7 @@ Possible ideas for contribution
 + More image generators
 + Get it working with pagination/infinite scroll
 + data-draft-user (generates a fake name/email etc)
-+ data-draft-number (generates random numbers)
++ ~~data-draft-number (generates random numbers)~~ *DONE -- Contributor: ultimatedelman*
 + data-draft-form (generates a form)
 + data-draft-time (random time etc)
 + data-draft-tweet (pull in random tweet from certain accounts)
@@ -194,3 +207,7 @@ $(window).roughDraft({
   }
 });
 ```
+
+__SPECIAL THANKS TO CONTRIBUTORS__
+
++ [ultimatedelman](https://github.com/ultimatedelman)
