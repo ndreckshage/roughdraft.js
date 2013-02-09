@@ -45,10 +45,13 @@ header img{
 .example_description p{
   height:35px;
 }
-.example_description i{
-  display:block;
+.example_description b{
+  float:left;
   padding:3px;
-  text-align:right;
+}
+.example_description i{
+  float:right;
+  padding:3px;
 }
 p.description{
   margin-bottom:20px;

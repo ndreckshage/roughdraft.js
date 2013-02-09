@@ -17,13 +17,14 @@
           <p class="muted">Quickly create and prototype a full interactive HTML mock-up without duplicating markup, server-side loops/code, or having to source fake content (lorem ipsum text/images).</p>
         </header>
         <section class="information">
-          <p class="description">These 10 lines...</p>
+          <p class="description">These 11 lines...</p>
           <pre class="prettyprint lang-html">
-&lt;section class="example_contain"&gt;
-  &lt;div class="example_element" data-draft-repeat="30"&gt;
+&lt;section&gt;
+  &lt;div data-draft-repeat="30"&gt;
     &lt;img data-draft-image="300/300" /&gt;
-    &lt;div class="example_description"&gt;
+    &lt;div&gt;
       &lt;p data-draft-text="1/s"&gt;&lt;/p&gt;
+      &lt;b data-draft-number="$/2-3"&gt;&lt;/b&gt;
       &lt;i data-draft-date="M-r/y"&gt;&lt;/i&gt;
       &lt;button class="btn btn-warning btn-mini btn-block" data-draft-text="1/w"&gt;&lt;/button&gt;
     &lt;/div>
@@ -36,6 +37,7 @@
             <img data-draft-image="300/300" />
             <div class="example_description">
               <p data-draft-text="1/s"></p>
+              <b data-draft-number="$/2-3"></b>
               <i class="muted" data-draft-date="M-r/y"></i>
               <button class="btn btn-warning btn-mini btn-block uppercase" data-draft-text="1/w"></button>
             </div>
@@ -72,7 +74,7 @@ $(function(){
         </footer>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/jquery.roughdraft.0.1.0.min.js"></script>
+        <script src="assets/js/jquery.roughdraft.0.1.2.min.js"></script>
         <script src="assets/js/prettify.js"></script>
         <script src="assets/js/main.js"></script>
       </div>
