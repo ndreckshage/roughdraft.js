@@ -233,8 +233,11 @@
          */
         $self.removeAttr(this.scopeVar.dataTag + draftRepeatBare);
 
-        // loop through the count of requested repeats
-        for (var x = 0; x < repeatCount; x++) {
+        /**
+         * loop through the count of requested repeats
+         * -1 on the repeat count because the initial instance of the node still exists
+         */
+        for (var x = 0; x < repeatCount - 1; x++) {
           // clone true true (with all deep data + events) to maintain node's JS, and insert into dom
           $self.clone(true, true).insertAfter($self);
         }
