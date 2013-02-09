@@ -27,6 +27,8 @@ Auto-generates content based on data attributes in HTML.
 **Image generators**
 + "placekitten" : "http://placekitten.com/ + params"
 + "placehold" : "http://placehold.it/ + params"
++ "placedog" : "http://placedog.com/ + params"
++ "baconmockup" : "http://baconmockup.com/ + params"
 
 Allows developers to quickly mockup a design using minimal HTML markup + JS, without server side scripting, and without having to navigate to image/text lorem ipsum generators.
 
