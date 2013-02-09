@@ -165,8 +165,8 @@
     _init : function() {
       var $draftText = $('[data-draft-text]'),
           $draftImage = $('[data-draft-image]'),
-          $draftNumber = $('[data-draft-number]'),
-          $draftDate = $('[data-draft-date]');
+          $draftDate = $('[data-draft-date]'),
+          $draftNumber = $('[data-draft-number]');
 
       // data-draft-text taps into lorem ipsum library in roughdraft.thesaurus.json
       if ($draftText.length) {
@@ -299,9 +299,15 @@
       }
 
       /**
-       * determine whether the local lorem ipsum library, or jsonp
-       * send local library to bookstore method ('owning ipsum')
-       * and jsonp to library method ('borrowing ipsum')
+       *  determine whether the local lorem ipsum library, or jsonp
+       *  send local library to bookstore method ('owning ipsum')
+       *  and jsonp to library method ('borrowing ipsum')
+       *
+       *  BUILT IN CUSTOM LIBRARY (with author permission)
+       *  + 'lorem'
+       *  + 'tunaipsum.com'
+       *  + 'robotipsum.com'
+       *  + 'lorizzle.nl'
        */
       if (opt.customIpsum === true) {
         // call the custom library/bookstore method
@@ -468,10 +474,9 @@
         formatNumber = '';
 
         /**
-         * form the formatNumber string based on the numberData object
+         * begin formatting the formatNumber string based on the numberData object
+         * if isCurrency is true, prepend number with dollar sign
          */
-
-        // if isCurrency is true, prepend number with dollar sign
         numberData.isCurrency && (formatNumber += '$');
 
         /**
@@ -1206,8 +1211,12 @@
           digits,
           data = new Object();
 
+      // convert single numbers to string
+      numberData = numberData.toString();
+
       // check that the param can be parsed
       if (typeof numberData === 'string') {
+        console.log(numberData);
 
         // split the data ($, natural numbers, decimals)
         parts = numberData.split(scope.inputSplit)

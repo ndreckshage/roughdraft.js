@@ -1,17 +1,17 @@
 $(function(){
 
   // DEFAULT OPTIONS
-  $(window).roughDraft();
+  // $(window).roughDraft();
 
   // TEXT API + IMAGE ALT
-  // $(window).roughDraft({
-  //   author      : 'lorem',
-  //   illustrator : 'placekitten'
-  // });
+  $(window).roughDraft({
+    author      : 'lorem',
+    illustrator : 'placekitten'
+  });
 
   // CUSTOM LIBRARY
   // $(window).roughDraft({
-  //   author      : 'lorem',
+  //   author      : 'robotipsum.com',
   //   customIpsum : true
   // });
 

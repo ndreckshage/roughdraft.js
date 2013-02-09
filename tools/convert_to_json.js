@@ -81,6 +81,7 @@ $(function() {
   converter.on('click', function() {
     // grab the value of the input
     ipsum = convert.val();
+    console.log(ipsum);
     // send it through the convert function
     ipsum = convertToJSON(ipsum);
     // and place it in the other input

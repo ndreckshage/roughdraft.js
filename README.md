@@ -17,7 +17,11 @@ Auto-generates content based on data attributes in HTML.
 + "hipster" : "http://hipsterjesus.com/api?paras=20&type=hipster-centric&html=false"
 
 **Lorem Ipsum local JSON** *("bookstore")*
+*NOTE -- all with author permission. if you want to commit a new library to the master repo, lorem ipsum author permission necessary.*
 + "lorem"
++ "tunaipsum.com" -- *courtesy of (tunaipsum.com)[tunaipsum.com]*
++ "robotipsum.com" -- *courtesy of (robotipsum.com)[robotipsum.com]*
++ "lorizzle.nl" -- *courtesy of (lorizzle.nl)[lorizzle.nl]*
 + *add your favorite ipsum generator with JSON converter/add to repository library*
 
 **Image generators**
@@ -157,19 +161,23 @@ Possible ideas for contribution
 + data-draft-song (soundcloud etc)
 + data-draft-quote (like lorem ipsum but blockquotes)
 
-*other libraries that could be included (with author permission)*
+*other libraries that could be included (THESAURUS.JSON with author permission)*
++ ~~placehold.it (image)~~ *DONE*
++ ~~placekitten.com (image)~~ *DONE*
++ baconipsum.com (image)
 + flickholdr.com (image)
 + placedog.com (image)
 + lorempixel.com (image)
 + placezombies.com (image)
 + rndimg.com (image)
-+ ~~lipsum.com (text)~~ *DONE*
-+ lorizzle.nl (text)
++ ~~baconipsum.com(text)~~ **API**
++ ~~lipsum.com (text)~~ *IN THESAURUS.JSON* + **API**
++ ~~lorizzle.nl (text)~~ *IN THESAURUS.JSON*
 + slipsum.com (text)
-+ robotipsum.com (text)
++ ~~robotipsum.com (text)~~ *IN THESAURUS.JSON*
 + spaceipsum.com (text)
-+ hipsteripsum.com (text)
-+ tunaipsum.com (text)
++ ~~hipsteripsum.com (text)~~ **API**
++ ~~tunaipsum.com (text)~~ *IN THESAURUS.JSON*
 + veggieipsum.com (text)
 + teapartyipsum.com (text)
 + fillerati.com (text)
