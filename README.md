@@ -193,6 +193,8 @@ $(window).roughDraft({
   author      : 'bacon',
   // the site to generate placeholder images from
   illustrator : 'placehold',
+  // array ['000', 'fff', 'eaeaea'] of colors the images should be in (will only work for image generators that allow colors)
+  paintColor  : ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'],
   // true if customIpsum library is preferred over jsonp api libraries
   customIpsum : false,
   // set timeout for JSONP requests

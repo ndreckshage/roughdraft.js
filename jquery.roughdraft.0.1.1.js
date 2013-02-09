@@ -59,6 +59,8 @@
     author      : 'bacon',
     // the site to generate placeholder images from
     illustrator : 'placehold',
+    // array ['000', 'fff', 'eaeaea'] of colors the images should be in (will only work for image generators that allow colors)
+    paintColor  : [],
     // true if customIpsum library is preferred over jsonp api libraries
     customIpsum : false,
     // set timeout for JSONP requests
@@ -996,17 +998,21 @@
       *
     **********************************************/
     _waterColor: function(illustrator) {
-      var paint = new Array(),
+      var opt = this.options,
+          paint = new Array(),
           placeKitten = 'placekitten',
           placeDog = 'placedog',
           waterColor;
 
-      // placekitten only offers regular and greyscale. set regular colors to false
-      // color palette for placehold.it
+      /**
+       * placekitten only offers regular and greyscale. set regular colors to false
+       * color palette only for placehold.it
+       * if user supplies color options, use that, else set default
+       */
       if (illustrator == placeKitten || illustrator == placeDog) {
         paint = [false, 'g'];
       } else {
-        paint = ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'];
+        paint = opt.paintColor.length ? opt.paintColor : ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'];
       }
 
       // determine the length of the color options array
@@ -1225,7 +1231,6 @@
 
       // check that the param can be parsed
       if (typeof numberData === 'string') {
-        console.log(numberData);
 
         // split the data ($, natural numbers, decimals)
         parts = numberData.split(scope.inputSplit)

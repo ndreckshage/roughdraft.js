@@ -1,13 +1,14 @@
 $(function(){
 
   // DEFAULT OPTIONS
-  // $(window).roughDraft();
+  $(window).roughDraft();
 
   // TEXT API + IMAGE ALT
-  $(window).roughDraft({
-    author      : 'bacon',
-    illustrator : 'placehold'
-  });
+  // $(window).roughDraft({
+  //   author      : 'bacon',
+  //   illustrator : 'placehold',
+  //   paintColor  : ['000', 'd0d0d0']
+  // });
 
   // CUSTOM LIBRARY
   // $(window).roughDraft({
