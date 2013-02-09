@@ -164,12 +164,11 @@ Possible ideas for contribution
 *other libraries that could be included (THESAURUS.JSON with author permission)*
 + ~~placehold.it (image)~~ *DONE*
 + ~~placekitten.com (image)~~ *DONE*
-+ baconipsum.com (image)
++ ~~baconmockup.com (image)~~ *DONE*
 + flickholdr.com (image)
-+ placedog.com (image)
++ ~~placedog.com (image)~~ *DONE*
 + lorempixel.com (image)
 + placezombies.com (image)
-+ rndimg.com (image)
 + ~~baconipsum.com(text)~~ **API**
 + ~~lipsum.com (text)~~ *IN THESAURUS.JSON* + **API**
 + ~~lorizzle.nl (text)~~ *IN THESAURUS.JSON*

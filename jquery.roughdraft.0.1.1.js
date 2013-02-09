@@ -952,6 +952,8 @@
           illustrator = this.options.illustrator,
           placeHold = 'placehold',
           placeKitten = 'placekitten',
+          placeDog = 'placedog',
+          baconMockup = 'baconmockup',
           waterColor,
           imageLink;
 
@@ -959,6 +961,8 @@
       switch (illustrator) {
         case placeHold:                     break;
         case placeKitten:                   break;
+        case placeDog:                      break;
+        case baconMockup:                   break;
         default:  illustrator = placeHold;  break;
       }
 
@@ -968,6 +972,10 @@
       // format the links based on the image gallery with the color/random option, height and width
       if (illustrator == placeKitten) {
         imageLink = 'http://placekitten.com/' + waterColor + width + '/' + height;
+      } else if (illustrator == placeDog) {
+        imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;        
+      } else if (illustrator == baconMockup) {
+        imageLink = 'http://baconmockup.com/' + width + '/' + height;
       } else {
         imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
       }
@@ -990,11 +998,12 @@
     _waterColor: function(illustrator) {
       var paint = new Array(),
           placeKitten = 'placekitten',
+          placeDog = 'placedog',
           waterColor;
 
       // placekitten only offers regular and greyscale. set regular colors to false
       // color palette for placehold.it
-      if (illustrator == placeKitten) {
+      if (illustrator == placeKitten || illustrator == placeDog) {
         paint = [false, 'g'];
       } else {
         paint = ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'];
@@ -1010,7 +1019,7 @@
       // check if water color option is chosen (could be false for placekitten)
       // and format the color links
       if (waterColor) {
-        if (illustrator == placeKitten) {
+        if (illustrator == placeKitten || illustrator == placeDog) {
           waterColor = waterColor + '/';
         } else {
           waterColor = '/' + waterColor + '/fff';

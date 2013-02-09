@@ -5,8 +5,8 @@ $(function(){
 
   // TEXT API + IMAGE ALT
   $(window).roughDraft({
-    author      : 'lorem',
-    illustrator : 'placekitten'
+    author      : 'bacon',
+    illustrator : 'placehold'
   });
 
   // CUSTOM LIBRARY
