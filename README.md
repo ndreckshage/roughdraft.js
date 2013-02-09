@@ -19,9 +19,9 @@ Auto-generates content based on data attributes in HTML.
 **Lorem Ipsum local JSON** *("bookstore")*
 *NOTE -- all with author permission. if you want to commit a new library to the master repo, lorem ipsum author permission necessary.*
 + "lorem"
-+ "tunaipsum.com" -- *courtesy of (tunaipsum.com)[tunaipsum.com]*
-+ "robotipsum.com" -- *courtesy of (robotipsum.com)[robotipsum.com]*
-+ "lorizzle.nl" -- *courtesy of (lorizzle.nl)[lorizzle.nl]*
++ "tunaipsum.com" -- *courtesy of [tunaipsum.com](http://www.tunaipsum.com)*
++ "robotipsum.com" -- *courtesy of [robotipsum.com](http://www.robotipsum.com)*
++ "lorizzle.nl" -- *courtesy of [lorizzle.nl](http://www.lorizzle.nl)*
 + *add your favorite ipsum generator with JSON converter/add to repository library*
 
 **Image generators**
