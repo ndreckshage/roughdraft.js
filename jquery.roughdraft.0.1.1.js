@@ -94,8 +94,9 @@
     paragraphType : 'p',
     sentenceType  : 's',
     wordType      : 'w',
-    digitRangeType: '-',
-    currencyType  : '$'
+    currencyType  : '$',
+    inputSplit    : '/',
+    rangeSplit    : '-'
   }
 
   /***********************************************
@@ -252,86 +253,6 @@
         }
         failSafe++;
       }
-    },
-
-    /**********************************************
-      * lottery method
-      *
-      * -- handles instances of data-draft-number and inserts as number into calling node
-      * -- numbers can be formatted by data-draft-number="$/2-3/0" (ex: Format as money, range of two to three digits, no decimal: $26 or $113)
-      * -- format (separated by '/'): 
-                  - optional. if first char is '$', dollar sign will be appended
-                  - required. include either a range of total digits or a single digit length: "2-3" will return a number of either 2 or 3 digits in length. "4" will return a 4-digit number.
-                  - optional. include the number of decimal places to include. single number: "2-3/4" will return a 2 or 3 digit number with 4 decimal places
-
-    **********************************************/
-    lottery: function(elems) {
-      var opt = this.options
-        , scope = this.scopeVar     
-        , that = this
-        , draftTextBare = 'draft-number'   
-      ;
-      elems.each(function(i, elem) {
-        var formatObj, str = '', fromSeed, toSeed, decimalSeed;
-        elem = $(elem);        
-        formatObj = that._parseNumberFormat(elem.data(draftTextBare));
-        formatObj.isCurrency && (str = '$'); //add dollar sign if currency
-        fromSeed = that._getSeed(fromSeed === toSeed ? formatObj.digitMin : formatObj.digitMin - 1); //determine low bound for number of digits
-        toSeed = that._getSeed(formatObj.digitMax); //determine high bound for number of digits
-        decimalSeed = that._getSeed(formatObj.decimalNumber); //get decimal
-                
-        str += fromSeed === toSeed ? that._randomizer(fromSeed / 10, toSeed) : that._randomizer(fromSeed, toSeed); //get number within given range
-        
-        formatObj.decimalNumber && (str += '.' + that._randomizer(decimalSeed)); //add decimal if included
-        elem.text(str); //add to obj 
-      });  
-    },
-
-    /**********************************************
-      * _parseNumberFormat method
-      *
-      * -- pulls out parts of formatting string 
-      * -- returns object with user preferences
-      * -- if user passes no preferences, returns default values
-
-    **********************************************/
-
-    _parseNumberFormat: function(str) {
-      var scope = this.scopeVar
-        , parts = (str += '').split('/')
-        , digits
-        , data = {
-            isCurrency: parts[0] === scope.currencyType //money if dollar sign is first
-            , digitMin: 1
-            , digitMax: 1
-            , decimalNumber: 0            
-        }
-      ;      
-      if (str.length) { //parse string if there is one. if not, return defaults
-        if (data.isCurrency) { //get rid of dollar sign          
-          parts = parts.slice(1, 3);
-        }
-        //at this point, parts[0] will consist of something like 2-4 or 3
-        digits = parts[0].split(scope.digitRangeType);
-        data.digitMin = +digits[0] > 0 ? +digits[0] : 1; //minimum is 1 digit, of course
-        data.digitMax = +digits[1] || data.digitMin; //if no max is supplied, just default to digit min
-        data.decimalNumber = parts[1] ? +parts[1] : 0; //if it exists, parts[1] will be the number of decimals        
-      }
-      return data; 
-    },
-
-    /**********************************************
-      * _getSeed method
-      *
-      * -- returns a number with a '1' trailed by the given number of zeros, e.g. 1000
-
-    **********************************************/
-    _getSeed: function(num) {
-      var str = '1';
-      for (var i = 0; i < num; i++) {
-        str += '0';
-      }
-      return +str;
     },
 
     /**********************************************
@@ -507,6 +428,74 @@
           $self.text(formatDate);
         }
       }
+    },
+
+    /**********************************************
+      *
+      *  lottery method
+      *
+      *  -- handles instances of data-draft-number and inserts as number into calling node
+      *  -- numbers can be formatted by data-draft-number="$/2-3/0" (ex: Format as money, range of two to three digits, no decimal: $26 or $113)
+      *  -- format (separated by '/'): 
+      *  ---- optional. if first char is '$', dollar sign will be appended
+      *  ---- required. include either a range of total digits or a single digit length: "2-3" will return a number of either 2 or 3 digits in length. "4" will return a 4-digit number.
+      *  ---- optional. include the number of decimal places to include. single number: "2-3/4" will return a 2 or 3 digit number with 4 decimal places
+      *
+      *  @param $draftNumber -- object -- data selector passed in through _init
+      *
+    **********************************************/
+    lottery: function($draftNumber) {
+      var $self,
+          draftNumberBare = 'draft-number',
+          numberData,
+          formatNumber = new String(),
+          naturalNumDigits,
+          naturalNumRange,
+          decimalNumRange;
+
+      // this will loop through all dom elements that use the data-draft-number tag
+      for (var i = 0; i < $draftNumber.length; i++) {
+
+        // set self to the current dom node being repeated
+        $self = $($draftNumber[i]);
+        // access the value (ex. data-draft-number="$/2-3/4")
+        numberData = $self.data(draftNumberBare);
+
+        // send the raw data to the parse number format method to return usable object
+        numberData = this._parseNumberFormat(numberData);
+
+        // reset format number string for every loop pass
+        formatNumber = '';
+
+        /**
+         * form the formatNumber string based on the numberData object
+         */
+
+        // if isCurrency is true, prepend number with dollar sign
+        numberData.isCurrency && (formatNumber += '$');
+
+        /**
+         * if user specifies random range (2-4), send the min/max digits to be randomized
+         * this will ensure that (for example) a 2 digit, 3 digit and 4 digit will be equally weighted
+         * rather than a 4 digit number being returned with much higher weight. more likely to be use case intent
+         */
+        naturalNumDigits = this._randomizer(numberData.digitMin, numberData.digitMax);
+        // send resulting number digit to rangefinder to return min/max object
+        naturalNumRange = this._rangeFinder(naturalNumDigits);
+        // the decimal numbers are specified, so skip the digit step, and sent to rangefinder
+        decimalNumRange = this._rangeFinder(numberData.decimalNumber);
+
+        /**
+         * add to the string with the resulting data from randomizer/rangefinder
+         * only include decimal if applicable
+         */
+        formatNumber += this._randomizer(naturalNumRange.min, naturalNumRange.max);
+        numberData.decimalNumber && (formatNumber += '.' + this._randomizer(decimalNumRange.min, decimalNumRange.max));
+
+        // add the formatted numbers to the dom and clean up the plugin tags
+        $self.removeAttr(this.scopeVar.dataTag + draftNumberBare);
+        $self.text(formatNumber);
+      } 
     },
 
     /***********************************************
@@ -1081,7 +1070,7 @@
 
           // if randomization requested, send the week count to randomizer
           if (randomDate === true) {
-            engineDate = this._randomizer(6);
+            engineDate = this._randomizer(7);
           }
 
           // switch on the browser/randomized date to return a day of week
@@ -1193,6 +1182,73 @@
     /***********************************************
     * ******************************************** *
     * *                                          * *
+    * *  LOTTERY PRIVATE METHODS                 * *
+    * *                                          * *
+    * ******************************************** *
+    ***********************************************/
+
+    /**********************************************
+      *
+      * _parseNumberFormat method
+      *
+      * -- pulls out parts of formatting string 
+      * -- returns object with user preferences
+      * -- if user passes no preferences, returns default values
+      *
+      *  @param numberData -- string -- of the raw data parse
+      *  
+      *  @return numberData -- object -- of the formatted number data
+      *
+    **********************************************/
+    _parseNumberFormat: function(numberData) {
+      var scope = this.scopeVar,
+          parts,
+          digits,
+          data = new Object();
+
+      // check that the param can be parsed
+      if (typeof numberData === 'string') {
+
+        // split the data ($, natural numbers, decimals)
+        parts = numberData.split(scope.inputSplit)
+        
+        // set up the object to return parsed data
+        data = {
+          // will return as true/false bool
+          isCurrency: parts[0] === scope.currencyType,
+          // define defaults
+          digitMin: 1,
+          digitMax: 1,
+          decimalNumber: 0            
+        };
+
+        // get rid of dollar sign          
+        if (data.isCurrency) {
+          parts = parts.slice(1, 3);
+        }
+        
+        //at this point, parts[0] will consist of something like 2-4 or 3
+        digits = parts[0].split(scope.rangeSplit);
+
+        /**
+         * determine the min/max ranges
+         * convert the string to a number format (with +)
+         * if no max is supplied, just default to digit min
+         * if it exists, parts[1] will be the number of decimals 
+         */
+        data.digitMin = +digits[0] > 0 ? +digits[0] : 1;
+        data.digitMax = +digits[1] || data.digitMin;
+        data.decimalNumber = parts[1] ? +parts[1] : 0;
+      }
+
+      // set back to numberData for readability and return the object to calling method
+      numberData = data;
+      return numberData; 
+    },
+
+    /***********************************************
+    * ******************************************** *
+    * *                                          * *
     * *  UTILITY METHODS                         * *
     * *                                          * *
     * ******************************************** *
@@ -1201,18 +1257,70 @@
     /**********************************************
       *
       *  _randomizer method
-      *   now allowing ranges!
+      *  
+      *  -- handles randomizing a single number or a range between 2 numbers
       *
-      *  @param from -- number -- minimum amount if to is provided, otherwise maximum amount
-      *  @param to -- number -- maximum amount
+      *  @param base -- number -- minimum amount if max given, otherwise it is the core number as only param
+      *  @param max  -- number -- maximum amount if supplied
+      *
       *  @return -- number -- to the calling method
       *
     **********************************************/
-    _randomizer: function(from, to) {
+    _randomizer: function(base, max) {
+      var randomize;
 
-      // randomize and round down for number requested
-      to = to || from / 10;
-      return Math.floor(Math.random()*(to - from) + from);
+      /**
+       * if a max number is supplied as 2nd parameter, randomize within the range
+       * otherwise, randomize from 0 to the single number
+       */
+      if (!max) {
+        randomize = Math.random() * base;
+      } else {
+        randomize = Math.random()*(max + 1 - base) + base;
+      }
+
+      // floor the decimal and return it to calling method
+      return Math.floor(randomize);
+    },
+
+    /**********************************************
+      * _rangeFinder method
+      *
+      * -- handles determining the min or max range in order to randomize
+      *
+      * @param digits -- number -- of how many digits to find a range for
+      *
+      * @return range -- object -- of the min and max range for specified digits
+      *
+    **********************************************/
+    _rangeFinder: function(digits) {
+      var min = 1,
+          max = 1,
+          minPow,
+          maxPow,
+          range = new Object();
+
+      /**
+       * use exponents to find the min and max points of a number
+       * for example -- 3 digits will return a min of 100 and a max of 999
+       */
+
+      // determine what we will be multiplying against
+      minPow = Math.pow(10, digits - 1);
+      maxPow = Math.pow(10, digits) - 1;
+
+      // multiply 1 against exponents to return range
+      min *= minPow;
+      max *= maxPow;
+
+      // format the min/max in an object
+      range = {
+        min: min,
+        max: max
+      };
+
+      // return it to calling method to be randomized
+      return range;
     },
 
     /**********************************************
@@ -1224,7 +1332,7 @@
       *  @return -- array -- cleaned array
       *
     **********************************************/
-    _removeEmptyIndexes: function(text){ 
+    _removeEmptyIndexes: function(text) { 
       // this gets rid of any blank indexes
       return $.grep(text,function(n){
         return(n);
@@ -1244,7 +1352,7 @@
       *  @return -- string -- with the ellipses taken out/put back in
       *
     **********************************************/
-    _replaceWith: function(text,search,replace){
+    _replaceWith: function(text,search,replace) {
       var position = text.indexOf(search);
       while (typeof position === 'number' && position > 0) {
         text = text.replace(search, replace);
