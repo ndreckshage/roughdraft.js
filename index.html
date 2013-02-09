@@ -48,18 +48,14 @@
           <ul>
             <li>Requires <a target="_blank" href="http://jquery.com/">jQuery</a></li>
             <li><a href="https://github.com/ndreckshage/roughdraft.js/zipball/master">Download</a> the source code.</li>
-            <li>Place jquery.roughdraft.0.1.0.js and roughdraft.thesaurus.json in your sites JS folder.</li>
+            <li>Place jquery.roughdraft.0.1.2.js in your sites JS folder.</li>
           </ul>
           <p class="muted">Link to with...</p>
-          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="js/jquery.roughdraft.0.1.0.js"&gt;&lt;/script&gt;</pre>
+          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="js/jquery.roughdraft.0.1.2.js"&gt;&lt;/script&gt;</pre>
           <p class="muted">Call with...</p>
           <pre class="prettyprint lang-js">
 $(function(){
-  $(window).roughDraft({
-    'author' : 'baconipsum.com',
-    'illustrator' : 'placehold.it',
-    'thesaurus': '/roughdraft.thesaurus.json'
-  });
+  $(window).roughDraft();
 });</pre>
           <p class="muted">And then the data-draft tags turn into content.</p>
           <pre class="prettyprint lang-html">
@@ -67,6 +63,7 @@ $(function(){
 &lt;img data-draft-image="200/300" /&gt;&nbsp;&lt;!-- width/height of image to return --&gt;
 &lt;div data-draft-text="5/w"&gt;&lt;/div&gt;&nbsp;&lt;!-- number of words/sentences/paragraphs (w/s/p) --&gt;
 &lt;div data-draft-date="D/M/Y"&gt;&lt;/div&gt;&nbsp;&lt;!-- dates in PHP format --&gt;
+&lt;div data-draft-number="$/2-3/2"&gt;&lt;/div&gt;&nbsp;&lt;!-- random number with options 'isCurrency'/digit range/decimals --&gt;
           </pre>
         </section>
         <footer>
