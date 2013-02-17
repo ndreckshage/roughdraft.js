@@ -168,7 +168,10 @@
       var $draftText = $('[data-draft-text]'),
           $draftImage = $('[data-draft-image]'),
           $draftDate = $('[data-draft-date]'),
-          $draftNumber = $('[data-draft-number]');
+          $draftNumber = $('[data-draft-number]'),
+          $draftUser = $('[data-draft-user]'),
+          $draftPlace = $('[data-draft-place]'),
+          $draftSite = $('[data-draft-site]');
 
       // data-draft-text taps into lorem ipsum library in roughdraft.thesaurus.json
       if ($draftText.length) {
@@ -186,6 +189,11 @@
       if ($draftNumber.length) {
         this.lottery($draftNumber);
       }
+      // data-draft-name generates a random name
+      if ($draftUser.length || $draftPlace.length || $draftSite.length) {
+        this.faker($draftUser, $draftPlace, $draftSite);
+      }
+
     },
 
     /**********************************************
@@ -467,7 +475,7 @@
       // this will loop through all dom elements that use the data-draft-number tag
       for (var i = 0; i < $draftNumber.length; i++) {
 
-        // set self to the current dom node being repeated
+        // set self to the current dom node setting number for
         $self = $($draftNumber[i]);
         // access the value (ex. data-draft-number="$/2-3/4")
         numberData = $self.data(draftNumberBare);
@@ -506,6 +514,60 @@
         $self.removeAttr(this.scopeVar.dataTag + draftNumberBare);
         $self.text(formatNumber);
       } 
+    },
+
+    faker: function($draftUser, $draftPlace, $draftSite) {
+      var self = this,
+          opt = this.options;
+
+      $.ajax({
+        url: 'http://www.roughdraftjs.com/api/?number=20',
+        dataType: 'jsonp',
+        type: opt.ajaxType,
+        timeout: opt.timeout,
+        // if the call was successful, send the data to method to format
+        success: function(data) {
+          self._johnDoe(data, $draftUser, $draftPlace, $draftSite);
+        },
+        error: function() {
+          console.log('There was an error reaching the lorem ipsum JSON API. Please confirm the link, or try' +
+            ' a different service if they are down.');
+        }
+      });
+    },
+
+    _johnDoe: function(data, $draftUser, $draftPlace, $draftSite) {
+      var $self,
+          draftUserBare = 'draft-user',
+          draftPlaceBare = 'draft-place',
+          draftSiteBare = 'draft-site',
+          userData,
+          placeData;
+
+      if ($draftUser.length > 0) {
+        for (var x = 0; x < $draftUser.length; x++) {
+          $self = $($draftUser[x]);
+          userData = $self.data(draftUserBare);
+          console.log(userData);
+        }
+      }
+
+      if ($draftPlace.length > 0) {
+        for (var y = 0; y < $draftPlace.length; y++) {
+          $self = $($draftPlace[y]);
+          placeData = $self.data(draftPlaceBare);
+          console.log(placeData);
+        }
+      }
+
+      if ($draftSite.length > 0) {
+        for (var z = 0; z < $draftSite.length; z++) {
+          $self = $($draftSite[z]);
+          siteData = $self.data(draftSiteBare);
+          console.log(siteData);
+        }
+      }
+
     },
 
     /***********************************************

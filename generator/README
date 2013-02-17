@@ -1,0 +1,3 @@
+This creates an api for the [php port of Faker](https://github.com/fzaninotto/Faker) that I am hosting at [http://roughdraftjs.com/api/](http://roughdraftjs.com/api/).
+
+All that is required is the Faker repo in /faker directory, and this at webroot or /api directory.

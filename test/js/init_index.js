@@ -5,14 +5,14 @@ $(function(){
 
   // TEXT API + IMAGE ALT
   // $(window).roughDraft({
-  //   author      : 'bacon',
+  //   author      : 'lebowski',
   //   illustrator : 'placehold',
   //   paintColor  : ['000', 'd0d0d0']
   // });
 
   // CUSTOM LIBRARY
   // $(window).roughDraft({
-  //   author      : 'robotipsum.com',
+  //   author      : 'lebowskiipsum.com',
   //   customIpsum : true
   // });
 
