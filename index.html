@@ -3,7 +3,7 @@
   <head>
     <title>RoughDraft.js</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="assets/css/main_v1.css" rel="stylesheet" media="screen">
+    <link href="assets/css/main_v2.css" rel="stylesheet" media="screen">
     <link href="assets/css/prettify.css" rel="stylesheet" media="screen"/>
   </head>
   <body>
@@ -17,29 +17,29 @@
           <p class="muted">Quickly create and prototype a full interactive HTML mock-up without duplicating markup, server-side loops/code, or having to source fake content (lorem ipsum text/images).</p>
         </header>
         <section class="information">
-          <p class="description">These 11 lines...</p>
+          <p class="description">These few lines...</p>
           <pre class="prettyprint lang-html">
 &lt;section&gt;
   &lt;div data-draft-repeat="30"&gt;
     &lt;img data-draft-image="300/300" /&gt;
     &lt;div&gt;
       &lt;p data-draft-text="1/s"&gt;&lt;/p&gt;
-      &lt;b data-draft-number="$/2-3"&gt;&lt;/b&gt;
-      &lt;i data-draft-date="M-r/y"&gt;&lt;/i&gt;
-      &lt;button class="btn btn-warning btn-mini btn-block" data-draft-text="1/w"&gt;&lt;/button&gt;
+      &lt;span data-draft-user="first"&gt;&lt;/span&gt;&lt;span data-draft-user="state"&gt;&lt;/span&gt;
+      &lt;i data-draft-date="F-r/j-r"&gt;&lt;/i&gt;
+      &lt;button class="btn btn-warning btn-mini btn-block" data-draft-number="$/2-3"&gt;&lt;/button&gt;
     &lt;/div>
   &lt;/div>
 &lt;/section></pre>
         </section>
-        <p class="description">...produce these 30 blocks.</p>
+        <p class="description">...produce these distinct blocks.</p>
         <section class="example_contain clearfix">
           <div class="example_element" data-draft-repeat="30">
             <img data-draft-image="300/300" />
             <div class="example_description">
               <p data-draft-text="1/s"></p>
-              <b data-draft-number="$/2-3"></b>
-              <i class="muted" data-draft-date="M-r/y"></i>
-              <button class="btn btn-warning btn-mini btn-block uppercase" data-draft-text="1/w"></button>
+              <b>Posted By:</b><span class="userinfo"><span data-draft-user="first"></span>&nbsp;<span>(</span><span data-draft-user="state"></span><span>)</span></span>
+              <i class="muted" data-draft-date="F-r/j-r"></i>
+              <button class="btn btn-warning btn-mini btn-block uppercase" data-draft-number="$/2-3"></button>
             </div>
           </div>
         </section>
@@ -48,10 +48,10 @@
           <ul>
             <li>Requires <a target="_blank" href="http://jquery.com/">jQuery</a></li>
             <li><a href="https://github.com/ndreckshage/roughdraft.js/zipball/master">Download</a> the source code.</li>
-            <li>Place jquery.roughdraft.0.1.2.js in your sites JS folder.</li>
+            <li>Place jquery.roughdraft.0.1.3.js in your sites JS folder.</li>
           </ul>
           <p class="muted">Link to with...</p>
-          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="js/jquery.roughdraft.0.1.2.js"&gt;&lt;/script&gt;</pre>
+          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="js/jquery.roughdraft.0.1.3.js"&gt;&lt;/script&gt;</pre>
           <p class="muted">Call with...</p>
           <pre class="prettyprint lang-js">
 $(function(){
@@ -64,6 +64,7 @@ $(function(){
 &lt;div data-draft-text="5/w"&gt;&lt;/div&gt;&nbsp;&lt;!-- number of words/sentences/paragraphs (w/s/p) --&gt;
 &lt;div data-draft-date="D/M/Y"&gt;&lt;/div&gt;&nbsp;&lt;!-- dates in PHP format --&gt;
 &lt;div data-draft-number="$/2-3/2"&gt;&lt;/div&gt;&nbsp;&lt;!-- random number with options 'isCurrency'/digit range/decimals --&gt;
+&lt;div data-draft-user="full"&gt;&lt;/div&gt;&nbsp;&lt;!-- random user information (first/last/full/email/etc...) --&gt;
           </pre>
         </section>
         <footer>
@@ -71,7 +72,7 @@ $(function(){
         </footer>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/jquery.roughdraft.0.1.2.min.js"></script>
+        <script src="assets/js/jquery.roughdraft.0.1.3.min.js"></script>
         <script src="assets/js/prettify.js"></script>
         <script src="assets/js/main.js"></script>
       </div>

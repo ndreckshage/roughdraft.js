@@ -53,6 +53,19 @@ header img{
   float:right;
   padding:3px;
 }
+.example_description button{
+  font-weight:bold;
+  font-size:14px;
+}
+.example_description .userinfo{
+  float:left;
+  padding:3px;
+  font-style:italic;
+  width:120px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
 p.description{
   margin-bottom:20px;
   font-size:18px;
