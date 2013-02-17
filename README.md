@@ -1,4 +1,4 @@
-RoughDraft.js v0.1.2
+RoughDraft.js v0.1.3
 =============
 
 [LIVE DEMO](http://ndreckshage.github.com/roughdraft.js/)
@@ -10,6 +10,7 @@ Auto-generates content based on data attributes in HTML.
 + data-draft-image
 + data-draft-date
 + data-draft-number
++ data-draft-user
 
 **Lorem Ipsum remote APIs** *("library")*
 + "lorem" : "http://www.randomtext.me/api/lorem/p-20/40-50"
@@ -29,6 +30,9 @@ Auto-generates content based on data attributes in HTML.
 + "placehold" : "http://placehold.it/ + params"
 + "placedog" : "http://placedog.com/ + params"
 + "baconmockup" : "http://baconmockup.com/ + params"
+
+**User generator**
++ Created an API of the [php port of Faker](https://github.com/fzaninotto/Faker) that I am hosting at [http://roughdraftjs.com/api/](http://roughdraftjs.com/api/)
 
 Allows developers to quickly mockup a design using minimal HTML markup + JS, without server side scripting, and without having to navigate to image/text lorem ipsum generators.
 
@@ -142,9 +146,27 @@ The date format uses PHP's date format (my preference), and can be changed throu
 <span data-draft-number="3"></span>
 ```
 
+
 Will insert a randomized number into calling elements with requested options. The first option ($) is optional to signify as money. The second (digits) is either a single number 3 (3 digits) or range (3-5) to allow for greater number variance, and the last (decimal) to add decimals onto the number.
 
 The 2nd span tag will return '$234.50' or '$9331.99', etc. The 3rd tag will return '144', etc.
+
+**data-draft-user**
+
+```html
+<span data-draft-user="full"><!-- generates full name --></span>
+<span data-draft-user="first"><!-- generates first name --></span>
+<span data-draft-user="last"><!-- generates last name --></span>
+<span data-draft-user="email"><!-- generates email --></span>
+<span data-draft-user="username"><!-- generates username --></span>
+<span data-draft-user="twitter"><!-- generates '@' + username --></span>
+<span data-draft-user="phone"><!-- generates phone number --></span>
+<span data-draft-user="address"><!-- generates street address --></span>
+<span data-draft-user="city"><!-- generates city name --></span>
+<span data-draft-user="state"><!-- generates a US state --></span>
+<span data-draft-user="zip"><!-- generates a zip code --></span>
+<span data-draft-user="country"><!-- generates a country --></span>
+```
 
 Possible ideas for contribution
 -----------
@@ -153,7 +175,7 @@ Possible ideas for contribution
 + More lorem ipsum libraries
 + More image generators
 + Get it working with pagination/infinite scroll
-+ data-draft-user (generates a fake name/email etc)
++ ~~data-draft-user (generates a fake name/email etc)~~ *DONE*
 + ~~data-draft-number (generates random numbers)~~ *DONE -- Contributor: ultimatedelman*
 + data-draft-form (generates a form)
 + data-draft-time (random time etc)
