@@ -10,7 +10,7 @@ $(function(){
   //   paintColor  : ['000', 'd0d0d0']
   // });
 
-  // CUSTOM LIBRARY
+  //CUSTOM LIBRARY
   // $(window).roughDraft({
   //   author      : 'lebowskiipsum.com',
   //   customIpsum : true

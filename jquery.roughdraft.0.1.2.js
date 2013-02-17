@@ -514,10 +514,27 @@
       } 
     },
 
+    /**********************************************
+      *
+      *  socialNetwork method
+      *
+      *  -- handles instances of data-draft-user
+      *  -- makes single request to roughdraftjs.com API
+      *  -- different user data can be requested in format of data-draft-user="full"
+      *  -- full, first, last, email, username, twitter, phone, address, city, state, zip, country
+      *
+      *  @param $draftUser -- object -- data selector passed in through _init
+      *
+    **********************************************/
     socialNetwork: function($draftUser) {
       var self = this,
           opt = this.options;
 
+      /**
+       * make jsonp ajax call to roughdraftjs.com api
+       * grab 25 records per request
+       * uses a php port of 'Faker', to generate random content
+       */
       $.ajax({
         url: 'http://www.roughdraftjs.com/api/?number=25',
         dataType: 'jsonp',
@@ -525,83 +542,12 @@
         timeout: opt.timeout,
         // if the call was successful, send the data to method to format
         success: function(data) {
-          _johnDoe(self, data, $draftUser);
+          self._johnDoe(data, $draftUser);
         },
         error: function() {
           console.log('There was an error reaching the JSONP API. Please reload as API is hosted in cloud (PAAS). If issue is persistent, please report on Github');
         }
       });
-
-      function _johnDoe(self, data, $draftUser) {
-        var $self,
-            draftUserBare = 'draft-user',
-            dataCount,
-            scope = self.scopeVar,
-            userData,
-            dataPick,
-            userInfo;
-
-        dataCount = data.length;
-
-        for (var i = 0; i < $draftUser.length; i++) {
-          $self = $($draftUser[i]);
-          userData = $self.data(draftUserBare);
-
-          dataPick = data[self._randomizer(dataCount)];
-
-          // ensure that the value is correctly returned as string
-          if (typeof userData === 'string') {
-
-            switch(userData) {
-              case 'full':
-                userInfo = dataPick.user.first + ' ' + dataPick.user.last;
-                break;
-              case 'first':
-                userInfo = dataPick.user.first;
-                break;
-              case 'last':
-                userInfo = dataPick.user.last;
-                break;
-              case 'email':
-                userInfo = dataPick.user.email;
-                break;
-              case 'username':
-                userInfo = dataPick.user.username;
-                break;
-              case 'twitter':
-                userInfo = '@' + dataPick.user.username.split('.')[0];
-                break;
-              case 'phone':
-                userInfo = dataPick.user.phone;
-                break;
-              case 'address':
-                userInfo = dataPick.place.address;
-                break;
-              case 'city':
-                userInfo = dataPick.place.city;
-                break;
-              case 'state':
-                userInfo = dataPick.place.state;
-                break;
-              case 'zip':
-                userInfo = dataPick.place.zip;
-                break;
-              case 'country':
-                userInfo = dataPick.place.country;
-                break;
-              default:
-                userInfo = '';
-                break;
-            }
-
-            // remove the data tags from the dom
-            $self.removeAttr(scope.dataTag + draftUserBare);
-            // call the method to get lorem ipsum info, passing in the textcount and type
-            $self.html(userInfo);
-
-          }
-        }
-      }
     },
 
     /***********************************************
@@ -1366,6 +1312,77 @@
       // set back to numberData for readability and return the object to calling method
       numberData = data;
       return numberData; 
+    },
+
+    /***********************************************
+    * ******************************************** *
+    * *                                          * *
+    * *  SOCIALNETWORK PRIVATE METHODS           * *
+    * *                                          * *
+    * ******************************************** *
+    ***********************************************/
+
+    /**********************************************
+      *
+      *  _johnDoe method
+      *  
+      *  -- handles returning the jsonp randomized user data to the dom
+      *
+      *  @param data -- object -- user data from jsonp request
+      *  @param $draftUser  -- object -- jquery object of calling dom nodes
+      *
+    **********************************************/
+    _johnDoe: function(data, $draftUser) {
+      var $self,
+          draftUserBare = 'draft-user',
+          dataCount,
+          scope = this.scopeVar,
+          userData,
+          dataPick,
+          userInfo;
+
+      // caclulate number of records returned in jsonp call
+      dataCount = data.length;
+
+      /**
+       * loop through the number of user info requests
+       * insert the data type requested (full, first, last, email, username, twitter, phone, address, city, state, zip, country) into the dom
+       */
+      for (var i = 0; i < $draftUser.length; i++) {
+
+        // set self to current loop position
+        $self = $($draftUser[i]);
+        // determine the type of info requested
+        userRequest = $self.data(draftUserBare);
+        // grab a record from the jsonp data
+        record = data[this._randomizer(dataCount)];
+
+        // ensure that the value is correctly returned as string
+        if (typeof userRequest === 'string') {
+
+          // switch on the request and set userInfo accordingly
+          switch(userRequest) {
+            case 'full':      userInfo = record.user.first + ' ' + record.user.last;  break;
+            case 'first':     userInfo = record.user.first;                           break;
+            case 'last':      userInfo = record.user.last;                            break;
+            case 'email':     userInfo = record.user.email;                           break;
+            case 'username':  userInfo = record.user.username;                        break;
+            case 'twitter':   userInfo = '@' + record.user.username.split('.')[0];    break;
+            case 'phone':     userInfo = record.user.phone;                           break;
+            case 'address':   userInfo = record.place.address;                        break;
+            case 'city':      userInfo = record.place.city;                           break;
+            case 'state':     userInfo = record.place.state;                          break;
+            case 'zip':       userInfo = record.place.zip;                            break;
+            case 'country':   userInfo = record.place.country;                        break;
+            default:          userInfo = '';                                          break;
+          }
+
+          // remove the data tags from the dom
+          $self.removeAttr(scope.dataTag + draftUserBare);
+          // call the method to get lorem ipsum info, passing in the textcount and type
+          $self.html(userInfo);
+        }
+      }
     },
 
     /***********************************************
