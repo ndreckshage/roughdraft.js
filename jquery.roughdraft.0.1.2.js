@@ -169,9 +169,7 @@
           $draftImage = $('[data-draft-image]'),
           $draftDate = $('[data-draft-date]'),
           $draftNumber = $('[data-draft-number]'),
-          $draftUser = $('[data-draft-user]'),
-          $draftPlace = $('[data-draft-place]'),
-          $draftSite = $('[data-draft-site]');
+          $draftUser = $('[data-draft-user]');
 
       // data-draft-text taps into lorem ipsum library in roughdraft.thesaurus.json
       if ($draftText.length) {
@@ -190,8 +188,8 @@
         this.lottery($draftNumber);
       }
       // data-draft-name generates a random name
-      if ($draftUser.length || $draftPlace.length || $draftSite.length) {
-        this.faker($draftUser, $draftPlace, $draftSite);
+      if ($draftUser.length) {
+        this.socialNetwork($draftUser);
       }
 
     },
@@ -516,58 +514,94 @@
       } 
     },
 
-    faker: function($draftUser, $draftPlace, $draftSite) {
+    socialNetwork: function($draftUser) {
       var self = this,
           opt = this.options;
 
       $.ajax({
-        url: 'http://www.roughdraftjs.com/api/?number=20',
+        url: 'http://www.roughdraftjs.com/api/?number=25',
         dataType: 'jsonp',
         type: opt.ajaxType,
         timeout: opt.timeout,
         // if the call was successful, send the data to method to format
         success: function(data) {
-          self._johnDoe(data, $draftUser, $draftPlace, $draftSite);
+          _johnDoe(self, data, $draftUser);
         },
         error: function() {
-          console.log('There was an error reaching the lorem ipsum JSON API. Please confirm the link, or try' +
-            ' a different service if they are down.');
+          console.log('There was an error reaching the JSONP API. Please reload as API is hosted in cloud (PAAS). If issue is persistent, please report on Github');
         }
       });
-    },
 
-    _johnDoe: function(data, $draftUser, $draftPlace, $draftSite) {
-      var $self,
-          draftUserBare = 'draft-user',
-          draftPlaceBare = 'draft-place',
-          draftSiteBare = 'draft-site',
-          userData,
-          placeData;
+      function _johnDoe(self, data, $draftUser) {
+        var $self,
+            draftUserBare = 'draft-user',
+            dataCount,
+            scope = self.scopeVar,
+            userData,
+            dataPick,
+            userInfo;
 
-      if ($draftUser.length > 0) {
-        for (var x = 0; x < $draftUser.length; x++) {
-          $self = $($draftUser[x]);
+        dataCount = data.length;
+
+        for (var i = 0; i < $draftUser.length; i++) {
+          $self = $($draftUser[i]);
           userData = $self.data(draftUserBare);
-          console.log(userData);
+
+          dataPick = data[self._randomizer(dataCount)];
+
+          // ensure that the value is correctly returned as string
+          if (typeof userData === 'string') {
+
+            switch(userData) {
+              case 'full':
+                userInfo = dataPick.user.first + ' ' + dataPick.user.last;
+                break;
+              case 'first':
+                userInfo = dataPick.user.first;
+                break;
+              case 'last':
+                userInfo = dataPick.user.last;
+                break;
+              case 'email':
+                userInfo = dataPick.user.email;
+                break;
+              case 'username':
+                userInfo = dataPick.user.username;
+                break;
+              case 'twitter':
+                userInfo = '@' + dataPick.user.username.split('.')[0];
+                break;
+              case 'phone':
+                userInfo = dataPick.user.phone;
+                break;
+              case 'address':
+                userInfo = dataPick.place.address;
+                break;
+              case 'city':
+                userInfo = dataPick.place.city;
+                break;
+              case 'state':
+                userInfo = dataPick.place.state;
+                break;
+              case 'zip':
+                userInfo = dataPick.place.zip;
+                break;
+              case 'country':
+                userInfo = dataPick.place.country;
+                break;
+              default:
+                userInfo = '';
+                break;
+            }
+
+            // remove the data tags from the dom
+            $self.removeAttr(scope.dataTag + draftUserBare);
+            // call the method to get lorem ipsum info, passing in the textcount and type
+            $self.html(userInfo);
+
+          }
         }
       }
-
-      if ($draftPlace.length > 0) {
-        for (var y = 0; y < $draftPlace.length; y++) {
-          $self = $($draftPlace[y]);
-          placeData = $self.data(draftPlaceBare);
-          console.log(placeData);
-        }
-      }
-
-      if ($draftSite.length > 0) {
-        for (var z = 0; z < $draftSite.length; z++) {
-          $self = $($draftSite[z]);
-          siteData = $self.data(draftSiteBare);
-          console.log(siteData);
-        }
-      }
-
     },
 
     /***********************************************

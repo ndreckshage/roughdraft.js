@@ -33,11 +33,11 @@ while ($number_requested > 0) {
   
   $item = array();
 
-  $item['person']['first'] = htmlentities($faker->firstName());
-  $item['person']['last'] = htmlentities($faker->lastName());
-
-  $item['contact']['email'] = htmlentities($faker->email());
-  $item['contact']['phone'] = htmlentities($faker->phoneNumber());
+  $item['user']['first'] = htmlentities($faker->firstName());
+  $item['user']['last'] = htmlentities($faker->lastName());
+  $item['user']['email'] = htmlentities($faker->email());
+  $item['user']['phone'] = htmlentities($faker->phoneNumber());
+  $item['user']['username'] = htmlentities($faker->username());
   
   $item['place']['address'] = htmlentities($faker->streetAddress());
   $item['place']['city'] = htmlentities($faker->city());
@@ -45,10 +45,6 @@ while ($number_requested > 0) {
   $item['place']['zip'] = htmlentities($faker->postcode());
   $item['place']['country'] = htmlentities($faker->country());
   
-  $item['other']['username'] = htmlentities($faker->username());
-  $item['other']['company'] = htmlentities($faker->company());
-  $item['other']['url'] = htmlentities($faker->url());
-
   array_push($to_return, $item);
   $number_requested--;
 }
