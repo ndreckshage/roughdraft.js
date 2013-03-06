@@ -37,4 +37,10 @@ $(function(){
   //   }
   // });
 
+  // LOREM PIXEL
+  // $(window).roughDraft({
+  //  illustrator : 'lorempixel',
+  //  categories  : ['business']
+  // });
+
 });
