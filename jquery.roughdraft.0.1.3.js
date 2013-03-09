@@ -59,6 +59,8 @@
     author      : 'bacon',
     // the site to generate placeholder images from
     illustrator : 'placehold',
+    // array of categories that should be used (will only work for image generators that allow categories)
+    categories  : [],
     // array ['000', 'fff', 'eaeaea'] of colors the images should be in (will only work for image generators that allow colors)
     paintColor  : [],
     // true if customIpsum library is preferred over jsonp api libraries
@@ -1001,7 +1003,9 @@
           placeKitten = 'placekitten',
           placeDog = 'placedog',
           baconMockup = 'baconmockup',
+          loremPixel = 'lorempixel',
           waterColor,
+          category,
           imageLink;
 
       // if the request (from options), does not match a gallery, return placehold.it default
@@ -1010,11 +1014,15 @@
         case placeKitten:                   break;
         case placeDog:                      break;
         case baconMockup:                   break;
+        case loremPixel:                    break;
         default:  illustrator = placeHold;  break;
       }
 
       // call the watercolor method to add color and pass the library to it
       waterColor = this._waterColor(illustrator);
+
+      // call the category method to add a category and pass library to it
+      category = this._category(illustrator);
 
       // format the links based on the image gallery with the color/random option, height and width
       if (illustrator == placeKitten) {
@@ -1023,6 +1031,11 @@
         imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;        
       } else if (illustrator == baconMockup) {
         imageLink = 'http://baconmockup.com/' + width + '/' + height;
+      } else if (illustrator == loremPixel) {
+        imageLink = 'http://lorempixel.com/' + waterColor + width + '/' + height;
+        if (category) {
+          imageLink += '/' + category;
+        }
       } else {
         imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
       }
@@ -1047,6 +1060,7 @@
           paint = new Array(),
           placeKitten = 'placekitten',
           placeDog = 'placedog',
+          lorempixel = 'lorempixel',
           waterColor;
 
       /**
@@ -1054,7 +1068,7 @@
        * color palette only for placehold.it
        * if user supplies color options, use that, else set default
        */
-      if (illustrator == placeKitten || illustrator == placeDog) {
+      if (illustrator == placeKitten || illustrator == placeDog || illustrator == lorempixel) {
         paint = [false, 'g'];
       } else {
         paint = opt.paintColor.length ? opt.paintColor : ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'];
@@ -1070,7 +1084,7 @@
       // check if water color option is chosen (could be false for placekitten)
       // and format the color links
       if (waterColor) {
-        if (illustrator == placeKitten || illustrator == placeDog) {
+        if (illustrator == placeKitten || illustrator == placeDog || illustrator == lorempixel) {
           waterColor = waterColor + '/';
         } else {
           waterColor = '/' + waterColor + '/fff';
@@ -1082,6 +1096,45 @@
 
       // return the color option to be included in the url
       return waterColor;
+    },
+
+    /**********************************************
+      *
+      *  _category method
+      *
+      *  -- handles the category options providers offer
+      *
+      *  @param illustrator -- string -- of the user option for generator
+      *
+      *  @return category -- string --
+      *
+    **********************************************/
+    _category: function(library){
+      var opt = this.options,
+          categories = opt.categories,
+          randomSelector = 'random',
+          lorempixel = 'lorempixel',
+          category = '';
+
+      // If no categories have been sepecified by the user...
+      if (categories.length < 1 || categories === 'random') {
+        // ... fill the categories with the default options.
+        switch (library) {
+          case lorempixel:
+            categories = ['abstract', 'animals', 'business', 'cats', 'city', 'food', 
+              'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport'];
+            break;
+        }
+      } 
+      
+      // Make sure there are definately some chosen categories...
+      if (categories.length > 0) {
+        // pick a random category.
+        category = this._randomizer(categories.length);
+        category = categories[category];
+      }
+
+      return category;
     },
 
     /***********************************************

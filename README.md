@@ -103,8 +103,8 @@ $ python -m SimpleHTTPServer
 **data-draft-image**
 
 ```html
-<img data-draft-img="width/height" />
-<img data-draft-img="300/500" />
+<img data-draft-image="width/height" />
+<img data-draft-image="300/500" />
 ```
 
 Will insert the requested image size src (as well as height + width attributes) into the dom.
