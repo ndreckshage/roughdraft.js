@@ -65,6 +65,8 @@
     customIpsum : false,
     // set timeout for JSONP requests
     timeout: 5000,
+    // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
+    alfaSequenceClassNamesReplacer: false,
     // if customIpsum is true, relative url of library is necessary
     customIpsumPath: '/roughdraft.thesaurus.json',
     // calendar data formatting (default using PHP formatting)
@@ -192,6 +194,68 @@
         this.socialNetwork($draftUser);
       }
 
+      if (this.options.alfaSequenceClassNamesReplacer === true) {
+        this.alfaSequenceReplacer();
+      }
+    },
+
+
+
+    /**
+     * Sometimes we need to use a sequence of class names to customize styling
+     *
+     * A recommendation is to abstract class names from their color or objective
+     * and use them in a sequential order, this helper does just that.
+     *
+     * What is the phonetic alphabet?:
+     * http://en.wikipedia.org/wiki/NATO_phonetic_alphabet
+     *
+     * for example --
+     * <div data-draft-repeat="3" class="myclass-alfa">
+     *   <h1>Example node</h1>
+     * </div>
+     *
+     * would give --
+     * <div class="myclass-alfa">
+     *   <h1>Example node</h1>
+     * </div>
+     * <div class="myclass-bravo">
+     *   <h1>Example node</h1>
+     * </div>
+     * <div class="myclass-charlie">
+     *   <h1>Example node</h1>
+     * </div>
+     *
+     * @author Renoir Boulanger <hello@renoirboulanger.com>
+     * 
+     **/
+    alfaSequenceReplacer: function(){
+      if(opt.alfaSequenceClassNames === true){
+
+        var opt = this.options,
+            alfa = {};
+
+        alfa.words = ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'];
+
+        alfa.next = function(i) {
+            alfa.nextIndex = i++;
+            if(alfa.nextIndex >= alfa.words.length) {
+                alfa.nextIndex = 0;
+            }
+            return alfa.words[alfa.nextIndex];
+        };
+
+        alfa.init = (function(jQ){
+            jQ('[class$=alfa]').each(function(index){
+                var s = jQ(this).attr('class');
+                var w = alfa.next(index);
+                var newClassNames = s.replace('alfa', w);
+                jQ(this).attr('class', newClassNames);
+            });
+        })(jQuery);
+
+        setTimeout(alfa.init, 200);
+      }
     },
 
     /**********************************************
