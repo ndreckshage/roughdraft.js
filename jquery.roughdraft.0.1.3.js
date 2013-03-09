@@ -27,7 +27,7 @@
   $.RedPen = function(options) {
 
     // called first to create markup
-    this._create(options)
+    this._create(options);
 
     // then build default functionality
     this._init();
