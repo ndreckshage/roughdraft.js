@@ -60,8 +60,11 @@
     // the site to generate placeholder images from
     illustrator : 'placehold',
     // array of categories that should be used (will only work for image generators that allow categories)
+    // defaults to all
+    // ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport']
     categories  : [],
     // array ['000', 'fff', 'eaeaea'] of colors the images should be in (will only work for image generators that allow colors)
+    // defaults to ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c']
     paintColor  : [],
     // true if customIpsum library is preferred over jsonp api libraries
     customIpsum : false,
@@ -1033,9 +1036,7 @@
         imageLink = 'http://baconmockup.com/' + width + '/' + height;
       } else if (illustrator == loremPixel) {
         imageLink = 'http://lorempixel.com/' + waterColor + width + '/' + height;
-        if (category) {
-          imageLink += '/' + category;
-        }
+        imageLink += category ? '/' + category : '';
       } else {
         imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
       }
@@ -1109,7 +1110,7 @@
       *  @return category -- string --
       *
     **********************************************/
-    _category: function(library){
+    _category: function(library) {
       var opt = this.options,
           categories = opt.categories,
           randomSelector = 'random',
@@ -1121,8 +1122,9 @@
         // ... fill the categories with the default options.
         switch (library) {
           case lorempixel:
-            categories = ['abstract', 'animals', 'business', 'cats', 'city', 'food', 
-              'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport'];
+            categories = ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport'];
+            break;
+          default:
             break;
         }
       } 

@@ -1,7 +1,7 @@
 $(function(){
 
   // DEFAULT OPTIONS
-  $(window).roughDraft();
+  // $(window).roughDraft();
 
   // TEXT API + IMAGE ALT
   // $(window).roughDraft({
@@ -38,9 +38,8 @@ $(function(){
   // });
 
   // LOREM PIXEL
-  // $(window).roughDraft({
-  //  illustrator : 'lorempixel',
-  //  categories  : ['business']
-  // });
+  $(window).roughDraft({
+   illustrator : 'lorempixel'
+  });
 
 });
