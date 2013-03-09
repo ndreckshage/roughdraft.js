@@ -230,11 +230,10 @@
      * 
      **/
     alfaSequenceReplacer: function(){
-      if(opt.alfaSequenceClassNames === true){
-
         var opt = this.options,
             alfa = {};
 
+      if(opt.alfaSequenceClassNamesReplacer === true){
         alfa.words = ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'];
 
         alfa.next = function(i) {
