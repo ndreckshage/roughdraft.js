@@ -48,7 +48,7 @@ Installation
 Add the following (potentially in a IS_DEV include header, as this JS library will likely only be used in early stage development).
 
 ```html
-<script type="text/javascript" src="js/jquery.roughdraft.0.1.0.js"></script>
+<script type="text/javascript" src="js/jquery.roughdraft.0.1.3.js"></script>
 ```
 
 Usage/Overview
