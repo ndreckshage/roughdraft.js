@@ -48,7 +48,7 @@ Installation
 Add the following (potentially in a IS_DEV include header, as this JS library will likely only be used in early stage development).
 
 ```html
-<script type="text/javascript" src="js/jquery.roughdraft.0.1.0.js"></script>
+<script type="text/javascript" src="js/jquery.roughdraft.0.1.3.js"></script>
 ```
 
 Usage/Overview
@@ -218,6 +218,9 @@ $(window).roughDraft({
   author      : 'bacon',
   // the site to generate placeholder images from
   illustrator : 'placehold',
+  // array of categories that should be used (will only work for image generators that allow categories -- lorempixel). defaults to all
+  // ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport']
+  categories  : ['business'],
   // array ['000', 'fff', 'eaeaea'] of colors the images should be in (will only work for image generators that allow colors)
   paintColor  : ['453f35','e7cead','b5ab94','eba434','64886c','b15c3a','b1956c'],
   // true if customIpsum library is preferred over jsonp api libraries
@@ -245,3 +248,4 @@ $(window).roughDraft({
 __SPECIAL THANKS TO CONTRIBUTORS__
 
 + [ultimatedelman](https://github.com/ultimatedelman)
++ [johngeorgewright](https://github.com/johngeorgewright)

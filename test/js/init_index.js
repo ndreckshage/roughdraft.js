@@ -1,7 +1,7 @@
 $(function(){
 
   // DEFAULT OPTIONS
-  $(window).roughDraft();
+  // $(window).roughDraft();
 
   // TEXT API + IMAGE ALT
   // $(window).roughDraft({
@@ -36,5 +36,10 @@ $(function(){
   //     yearNumberTwo    : 'y'
   //   }
   // });
+
+  // LOREM PIXEL
+  $(window).roughDraft({
+   illustrator : 'lorempixel'
+  });
 
 });
