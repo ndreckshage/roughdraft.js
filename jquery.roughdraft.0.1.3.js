@@ -212,7 +212,7 @@
       *  Sometimes we need to use a sequence of class names to customize styling
       *
       *  A recommendation is to abstract class names from their color or objective
-      *  and use them in a sequential order, this helper does just that.
+      *  and use them in a sequential order, the sequencer does it.
       *
       *  What is the phonetic alphabet?: http://en.wikipedia.org/wiki/NATO_phonetic_alphabet
       * 
