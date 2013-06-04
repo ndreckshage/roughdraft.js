@@ -70,6 +70,8 @@
     customIpsum : false,
     // set timeout for JSONP requests
     timeout: 5000,
+    // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
+    classNameSequencer: false,
     // if customIpsum is true, relative url of library is necessary
     customIpsumPath: '/roughdraft.thesaurus.json',
     // calendar data formatting (default using PHP formatting)
@@ -197,7 +199,65 @@
         this.socialNetwork($draftUser);
       }
 
+      if (this.options.classNameSequencer !== false) {
+        this.sequencer();
+      }
     },
+
+
+    /**********************************************
+      *
+      *  Sequencer method
+      *
+      *  Sometimes we need to use a sequence of class names to customize styling
+      *
+      *  A recommendation is to abstract class names from their color or objective
+      *  and use them in a sequential order, the sequencer does it.
+      *
+      *  What is the phonetic alphabet?: http://en.wikipedia.org/wiki/NATO_phonetic_alphabet
+      * 
+      *  -- reads classNames if it matches
+      *
+      * 
+      *  -- example
+      *  
+      *  <div data-draft-repeat="3" class="myclass-alfa">
+      *      <h1>Example node</h1>
+      *  </div>
+      *
+      * -- would give
+      * 
+      *  <div class="myclass-alfa">
+      *      <h1>Example node</h1>
+      *  </div>
+      *  <div class="myclass-bravo">
+      *      <h1>Example node</h1>
+      *  </div>
+      *  <div class="myclass-charlie">
+      *      <h1>Example node</h1>
+      *  </div>
+      *
+      * @author Renoir Boulanger <hello@renoirboulanger.com>
+      * 
+      **********************************************/     
+    sequencer: function(){
+        var opt = this.options
+            className = 'alfa',
+            self = this;
+
+        if(opt.classNameSequencer === true){
+          self._sequencerSequence = ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'];
+
+          $('[class$='+className+']').each(function(index){
+              var parent = $(this).parent();
+
+              parent.find('[class$='+className+']').each(function(index){
+                  $(this).attr('class', $(this).attr('class').replace(className, self._sequencerNext(index)));
+              });
+          });          
+        }
+    },
+
 
     /**********************************************
       *
@@ -781,7 +841,7 @@
         // set self to the current dom node being repeated
         $self = $($draftText[i]);
         // access the value (ex. data-draft-text="4s")
-        textData = $self.data(draftTextBare);
+        textData = $self.data(draftTextBatBare);
 
         // ensure that the value is correctly returned as string
         if (typeof textData === 'string') {
@@ -1438,6 +1498,49 @@
           $self.html(userInfo);
         }
       }
+    },
+
+    /***********************************************
+    * ******************************************** *
+    * *                                          * *
+    * *  SEQUENCER PRIVATE METHODS               * *
+    * *                                          * *
+    * ******************************************** *
+    ***********************************************/
+    
+
+    /**********************************************
+      *
+      *  _sequencerSequence property
+      *  
+      *  -- Array of words to use as the sequence
+      *
+    **********************************************/
+    _sequencerSequence: [],
+
+    /**********************************************
+      *
+      *  _sequencerNext method
+      *  
+      *  -- Gives the next element in a list, in case the sequence is finished, re-start the sequence
+      *
+      *  @param index -- number -- last known position
+      *
+      *  @return -- string -- next word from the sequence
+      *
+    **********************************************/
+    _sequencerNext: function(index) {
+        var nextIndex = index++,
+            self = this;
+
+        // In case we are at the last position, start from begining
+        if(nextIndex >= self._sequencerSequence.length) {
+            nextIndex = 0;
+        }
+
+        // Provide next word to be used within the 
+        // loop in sequencer method
+        return self._sequencerSequence[nextIndex];
     },
 
     /***********************************************

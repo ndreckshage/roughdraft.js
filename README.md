@@ -39,7 +39,14 @@ Allows developers to quickly mockup a design using minimal HTML markup + JS, wit
 
 The layout prototype ideally will cut down on development time by figuring out layout kinks, prior to the heavy code lifting.
 
-Installation 
+
+**Class name sequence**
+Style patterns with expectable class name sequence of your choice.
+
+To use the feature, simply add a class name containing `*alfa*` and that node's siblings will have similar class name following NATO phonetic alphabet.
+
+
+Installation
 -----------
 
 + Requires jQuery
@@ -54,7 +61,7 @@ Add the following (potentially in a IS_DEV include header, as this JS library wi
 Usage/Overview
 -----------
 
-The plugin is called by
+The plugin is called by:
 
 ```javascript
 $(window).roughDraft({
@@ -169,6 +176,48 @@ The 2nd span tag will return '$234.50' or '$9331.99', etc. The 3rd tag will retu
 <span data-draft-user="country"><!-- generates a country --></span>
 ```
 
+**Class name sequencer**
+
+Sometimes we need to use a sequence of class names to customize styling.
+
+A recommendation is to abstract class names from their color or objective
+and use them in a sequential order, the sequencer does it.
+
+Using a class name containing the word `alfa`:
+
+```html
+<div class="sample">
+ <div data-draft-repeat="2" class="myclass-alfa">
+     <h1>Example node</h1>
+ </div>
+</div>
+```
+
+Would generate in an expectable order similar class names:
+
+```html
+<div class="sample">
+ <div class="myclass-alfa">
+     <h1>Example node</h1>
+ </div>
+ <div class="myclass-bravo">
+     <h1>Example node</h1>
+ </div>
+</div>
+```
+
+The feature ensures the sequence is applied to the same level siblings.
+
+To enable, activate flag in:
+
+```javascript
+$(window).roughDraft({
+  classNameSequencer: true
+});
+```
+
+
+
 Possible ideas for contribution
 -----------
 *not sure how these would all work, just brainstorming...*
@@ -229,6 +278,8 @@ $(window).roughDraft({
   timeout: 5000,
   // if customIpsum is true, relative url of library is necessary
   customIpsumPath: '/roughdraft.thesaurus.json',
+  // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence  
+  classNameSequencer: true,
   // calendar data formatting (default using PHP formatting)
   calendar: {
     dayNumber        : 'j',
