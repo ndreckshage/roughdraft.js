@@ -2,7 +2,7 @@
 * ****************************************************** *
 * *                                                    * *
 * *  jQuery RoughDraft.js Plugin                       * *
-* *  Version 0.1.3                                     * *
+* *  Version 0.1.4                                     * *
 * *                                                    * *
 * *  Copyright Nick Dreckshage, licensed GPL & MIT     * *
 * *  https://github.com/ndreckshage/roughdraft.js      * *
@@ -841,7 +841,7 @@
         // set self to the current dom node being repeated
         $self = $($draftText[i]);
         // access the value (ex. data-draft-text="4s")
-        textData = $self.data(draftTextBatBare);
+        textData = $self.data(draftTextBare);
 
         // ensure that the value is correctly returned as string
         if (typeof textData === 'string') {
