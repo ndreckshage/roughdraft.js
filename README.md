@@ -1,4 +1,4 @@
-RoughDraft.js v0.1.3
+4oughDraft.js v0.1.4
 =============
 
 [LIVE DEMO](http://ndreckshage.github.com/roughdraft.js/)
@@ -55,7 +55,7 @@ Installation
 Add the following (potentially in a IS_DEV include header, as this JS library will likely only be used in early stage development).
 
 ```html
-<script type="text/javascript" src="js/jquery.roughdraft.0.1.3.js"></script>
+<script type="text/javascript" src="js/jquery.roughdraft.min.js"></script>
 ```
 
 Usage/Overview
