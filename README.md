@@ -1,9 +1,21 @@
-4oughDraft.js v0.1.4
-=============
+RoughDraft.js v0.1.5
+====================
 
 [LIVE DEMO](http://ndreckshage.github.com/roughdraft.js/)
 
-Auto-generates content based on data attributes in HTML.
+Auto-generates content based on data attributes in HTML. See [Generators](#Generators) below.
+
+Allows to quickly mockup a design using minimal HTML markup + CSS, without server side scripting, and without having to navigate to image/text lorem ipsum generators.
+
+The layout prototype ideally will cut down on development time by figuring out layout kinks, prior to the heavy code lifting.
+
+This tool is meant to allow you to develop HTML/CSS alone, it should’t be part of a backbone application which is actually communicating to an API.
+
+A simple `mockups/` folder hosting a set of static HTML loading Roughdraft is more than enough.
+
+
+Generators
+----------
 
 + data-draft-repeat
 + data-draft-text
@@ -17,8 +29,9 @@ Auto-generates content based on data attributes in HTML.
 + "bacon" : "https://baconipsum.com/api/?type=all-meat&paras=20&start-with-lorem=1"
 + "hipster" : "http://hipsterjesus.com/api?paras=20&type=hipster-centric&html=false"
 
-**Lorem Ipsum local JSON** *("bookstore")*
-*NOTE -- all with author permission. if you want to commit a new library to the master repo, lorem ipsum author permission necessary.*
+**Lorem Ipsum (local only)** *("bookstore")*
+*NOTE —— all with author permission. If you want to commit a new library, please make sure you have the author permission.*
+
 + "lorem"
 + "lebowskiipsum.com" -- *courtesy of [lebowskiipsum.com](http://www.lebowskiipsum.com)*
 + "tunaipsum.com" -- *courtesy of [tunaipsum.com](http://www.tunaipsum.com)*
@@ -26,47 +39,114 @@ Auto-generates content based on data attributes in HTML.
 + "lorizzle.nl" -- *courtesy of [lorizzle.nl](http://www.lorizzle.nl)*
 + *add your favorite ipsum generator with JSON converter/add to repository library*
 
+
 **Image generators**
 + "placekitten" : "http://placekitten.com/ + params"
 + "placehold" : "http://placehold.it/ + params"
 + "placedog" : "http://placedog.com/ + params"
 + "baconmockup" : "http://baconmockup.com/ + params"
 
+
 **User generator**
 + Created an API of the [php port of Faker](https://github.com/fzaninotto/Faker) that I am hosting at [http://roughdraftjs.com/api/](http://roughdraftjs.com/api/)
 
-Allows developers to quickly mockup a design using minimal HTML markup + JS, without server side scripting, and without having to navigate to image/text lorem ipsum generators.
 
-The layout prototype ideally will cut down on development time by figuring out layout kinks, prior to the heavy code lifting.
-
-
-**Class name sequence**
+**Class name sequencer**
 Style patterns with expectable class name sequence of your choice.
 
 To use the feature, simply add a class name containing `*alfa*` and that node's siblings will have similar class name following NATO phonetic alphabet.
 
 
 Installation
------------
+------------
 
-+ Requires jQuery
-+ Make sure the roughdraft.thesaurus.json lives in the same directory as the file, or adjust the the option.
+*Reminder*, Roughdraft must be loaded after jQuery as it is creating an extension on top of it.
 
-Add the following (potentially in a IS_DEV include header, as this JS library will likely only be used in early stage development).
+Steps:
 
-```html
-<script type="text/javascript" src="js/jquery.roughdraft.min.js"></script>
-```
+1. Add entries in `bower.json`
 
-Usage/Overview
------------
+    ```json
+    {
+      "devDependencies": {
+        "roughdraft.js": "0.1.5"
+      }
+    }
+    ```
 
-The plugin is called by:
+2. Update your bower dependencies
+
+    ```bash
+    bower update
+    ```
+
+3. Create a folder in your project
+
+  All you need is a folder (e.g. `mockups/`) that is exposed by a webserver right beside the `bower_components/`.
+
+  For example, in a Yeoman managed Backbone project, it will look like this:
+
+      ```
+      - app/
+        - bower_components/
+        - mockups/
+          - index.html
+      - bower.json
+      ```
+
+4. Create your first mockup page
+
+  Include the following in each of your `mockups/` files.
+
+      ```html
+      <head>
+        <script src="/bower_components/jquery/jquery.min.js"></script>
+        <script src="/bower_components/roughdraft/roughdraft.min.js"></script>
+      </head>
+      ```
+
+  **Advice**: In case you think of using RequireJS to load either RoughDraft and/or jQuery. It’s better not to, because that mockup folder is only meant to be used as a [living frontend styleguide](http://alistapart.com/article/creating-style-guides) and is better be as decoupled as possible from the web application.
+
+5. Add initialization
+
+  Add this inside the body tag, at the bottom.
+
+      ```javascript
+      $(document).ready(function(){
+          $(window).roughDraft();
+      });
+      ```
+
+6. Bonus, LoremIpsum local only:
+
+  To save load time you can specify a thesorus that will be used instead of making an HTTP call for lorem ipsum text.
+
+      ```javascript
+      <script>
+      $(document).ready(function(){
+        $(window).roughDraft({
+            author: 'lorem',
+            customIpsum: true,
+            customIpsumPath: '/bower_components/roughdraft.js/roughdraft.thesaurus.json'
+        });
+      });
+      ```
+
+
+
+
+
+Usage overview
+--------------
+
+The plugin MUST be called after jQuery is loaded, at document ready, by doing:
 
 ```javascript
-$(window).roughDraft({
-  'author' : 'bacon',
-  'illustrator' : 'placehold'
+$(document).ready(function(){
+  $(window).roughDraft({
+    'author' : 'bacon',
+    'illustrator' : 'placehold'
+  });
 });
 ```
 
@@ -278,7 +358,7 @@ $(window).roughDraft({
   timeout: 5000,
   // if customIpsum is true, relative url of library is necessary
   customIpsumPath: '/roughdraft.thesaurus.json',
-  // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence  
+  // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
   classNameSequencer: true,
   // calendar data formatting (default using PHP formatting)
   calendar: {
