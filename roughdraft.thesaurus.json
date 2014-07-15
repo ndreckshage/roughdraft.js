@@ -108,5 +108,23 @@
     ["Nulla da bomb.","Etiam faucibizzle pharetra neque.","Vestibulizzle fo arcu .","Tellivizzle that's the shizzle dizzle izzle ipsum.","Gangsta adipiscing nibh dope lectizzle.","Cras crunk, mi egizzle shut the shizzle up bling bling, dolor fo bibendizzle orci, dizzle placerat brizzle izzle i'm in the shizzle izzle.","Etiam adipiscing, gizzle et gizzle aliquam, shut the shizzle up things lacinia the bizzle, a sagittizzle rizzle shut the shizzle up at purizzle.","Suspendisse aliquizzle boofron pede.","In pulvinar aliquizzle dolizzle.","Dawg leo enim, tempizzle nec, facilisizzle crazy, laorizzle in, sizzle."],
     ["Maurizzle eget massa hizzle away blandit things.","Ass ullamcorper turpizzle dawg away tincidunt lobortizzle.","Mah nizzle crazy yippiyo.","Maecenas dizzle.","Vivamizzle sheezy yo pimpin'.","Pimpin' mi.","Its fo rizzle crackalackin dolizzle sizzle amet, consectetizzle adipiscing for sure.","Maurizzle urna arcu, shizzlin dizzle egizzle, crazy a, yippiyo eu, check it out.","Lorizzle crackalackin owned for sure amet, cool adipiscing owned."],
     ["Nunc quizzle izzle.","Donec ante.","Owned we gonna chung shiznit at lectus.","Morbi yo tortizzle.","Crizzle boofron tortor izzle daahng dawg consectetizzle funky fresh.","Lorizzle ipsizzle dolor break yo neck, yall amizzle, consectetuer adipiscing elit.","Stuff sure arcu, elementizzle its fo rizzle, eleifend izzle, gizzle we gonna chung, est.","Its fo rizzle bow wow wow volutpat.","Get down get down tempizzle crazy turpizzle."]
+  ],
+  "localUsers": [
+    {
+        "user": {
+            "first": "John",
+            "last": "Doe",
+            "full": "John Doe",
+            "email": "jdoe@doe.com",
+            "username": "jdoe3"
+        },
+        "place": {
+            "phone": "555-555-5555",
+            "country": "Canada",
+            "zip": "G0S 1V0",
+            "state": "Québec",
+            "city": "Laurierville"
+        }
+    }
   ]
 }

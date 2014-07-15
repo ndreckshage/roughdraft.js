@@ -17,29 +17,36 @@ $(function(){
   // });
 
   // FULL OPTIONS
-  // $(window).roughDraft({
-  //   author      : 'bacon',
-  //   illustrator : 'placehold',
-  //   customIpsum : false,
-  //   timeout: 5000,
-  //   customIpsumPath: '/roughdraft.thesaurus.json',
-  //   calendar: {
-  //     dayNumber        : 'j',
-  //     dayNumberZeros   : 'd',
-  //     dayText          : 'l',
-  //     dayTextThree     : 'D',
-  //     monthNumber      : 'n',
-  //     monthNumberZeros : 'm',
-  //     monthText        : 'F',
-  //     monthTextThree   : 'M',
-  //     yearNumber       : 'Y',
-  //     yearNumberTwo    : 'y'
-  //   }
-  // });
+  $(window).roughDraft({
+    author      : 'lebowskiipsum.com',
+    illustrator : 'placehold',
+    timeout: 5000,
+    customIpsum: true,
+    customIpsumPath: "../../roughdraft.thesaurus.json",
+    localUserThesaurus: "../../roughdraft.thesaurus.json",
+    calendar: {
+      dayNumber        : 'j',
+      dayNumberZeros   : 'd',
+      dayText          : 'l',
+      dayTextThree     : 'D',
+      monthNumber      : 'n',
+      monthNumberZeros : 'm',
+      monthText        : 'F',
+      monthTextThree   : 'M',
+      yearNumber       : 'Y',
+      yearNumberTwo    : 'y'
+    }
+  });
 
+  /*
   // LOREM PIXEL
   $(window).roughDraft({
-   illustrator : 'lorempixel'
+    illustrator : "placekitten",
+    author: "tunaipsum.com",
+    customIpsum: true,
+    customIpsumPath: "../../roughdraft.thesaurus.json"
+    localUserThesaurus: "../../roughdraft.thesaurus.json",
   });
+  */
 
 });
