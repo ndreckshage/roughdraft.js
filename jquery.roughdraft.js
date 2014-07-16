@@ -2,7 +2,7 @@
 * ****************************************************** *
 * *                                                    * *
 * *  jQuery RoughDraft.js Plugin                       * *
-* *  Version 0.1.4                                     * *
+* *  Version 0.1.5                                     * *
 * *                                                    * *
 * *  Copyright Nick Dreckshage, licensed GPL & MIT     * *
 * *  https://github.com/ndreckshage/roughdraft.js      * *
@@ -23,7 +23,7 @@
   * *                                           * *
   * ********************************************* *
   ************************************************/
-  
+
   $.RedPen = function(options) {
 
     // called first to create markup
@@ -48,15 +48,15 @@
    *  EXAMPLE OF HOW WIDGET CAN BE CALLED WITH OPTIONS
    *
    *  $(window).roughDraft({
-   *    'author' : 'baconipsum',
-   *    'illustrator' : 'placehold',
+   *    'author' : 'bacon',
+   *    'illustrator' : 'placekitten',
    *  });
    *
    */
 
   $.RedPen.settings = {
     // the site to generate lorem ipsum from, for both jsonp + custom options
-    author      : 'bacon',
+    author      : 'lorem',
     // the site to generate placeholder images from
     illustrator : 'placehold',
     // array of categories that should be used (will only work for image generators that allow categories)
@@ -72,6 +72,8 @@
     timeout: 5000,
     // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
     classNameSequencer: false,
+    // Use local thesaurus to generate one user, see ['localUsers']
+    localUserThesaurus: '/roughdraft.thesaurus.json',
     // if customIpsum is true, relative url of library is necessary
     customIpsumPath: '/roughdraft.thesaurus.json',
     // calendar data formatting (default using PHP formatting)
@@ -215,18 +217,18 @@
       *  and use them in a sequential order, the sequencer does it.
       *
       *  What is the phonetic alphabet?: http://en.wikipedia.org/wiki/NATO_phonetic_alphabet
-      * 
+      *
       *  -- reads classNames if it matches
       *
-      * 
+      *
       *  -- example
-      *  
+      *
       *  <div data-draft-repeat="3" class="myclass-alfa">
       *      <h1>Example node</h1>
       *  </div>
       *
       * -- would give
-      * 
+      *
       *  <div class="myclass-alfa">
       *      <h1>Example node</h1>
       *  </div>
@@ -238,8 +240,8 @@
       *  </div>
       *
       * @author Renoir Boulanger <hello@renoirboulanger.com>
-      * 
-      **********************************************/     
+      *
+      **********************************************/
     sequencer: function(){
         var opt = this.options
             className = 'alfa',
@@ -254,7 +256,7 @@
               parent.find('[class$='+className+']').each(function(index){
                   $(this).attr('class', $(this).attr('class').replace(className, self._sequencerNext(index)));
               });
-          });          
+          });
         }
     },
 
@@ -384,6 +386,7 @@
        *  + 'tunaipsum.com'
        *  + 'robotipsum.com'
        *  + 'lorizzle.nl'
+       *  + 'lebowskiipsum.com'
        */
       if (opt.customIpsum === true) {
         // call the custom library/bookstore method
@@ -439,7 +442,7 @@
             imageWidth = false;
             imageHeight = false;
           }
-        
+
           // if all went well, sent the image to the _photoAlbum method to return an image
           if (imageWidth && imageHeight) {
 
@@ -518,7 +521,7 @@
       *
       *  -- handles instances of data-draft-number and inserts as number into calling node
       *  -- numbers can be formatted by data-draft-number="$/2-3/0" (ex: Format as money, range of two to three digits, no decimal: $26 or $113)
-      *  -- format (separated by '/'): 
+      *  -- format (separated by '/'):
       *  ---- optional. if first char is '$', dollar sign will be appended
       *  ---- required. include either a range of total digits or a single digit length: "2-3" will return a number of either 2 or 3 digits in length. "4" will return a 4-digit number.
       *  ---- optional. include the number of decimal places to include. single number: "2-3/4" will return a 2 or 3 digit number with 4 decimal places
@@ -576,7 +579,7 @@
         // add the formatted numbers to the dom and clean up the plugin tags
         $self.removeAttr(this.scopeVar.dataTag + draftNumberBare);
         $self.text(formatNumber);
-      } 
+      }
     },
 
     /**********************************************
@@ -601,13 +604,14 @@
        * uses a php port of 'Faker', to generate random content
        */
       $.ajax({
-        url: 'http://www.roughdraftjs.com/api/?number=25',
-        dataType: 'jsonp',
+        url: opt.localUserThesaurus,
+        dataType: 'json',
         type: opt.ajaxType,
         timeout: opt.timeout,
         // if the call was successful, send the data to method to format
         success: function(data) {
-          self._johnDoe(data, $draftUser);
+          var user = data['localUsers'];
+          self._johnDoe(user, $draftUser);
         },
         error: function() {
           console.log('There was an error reaching the JSONP API. Please reload as API is hosted in cloud (PAAS). If issue is persistent, please report on Github');
@@ -799,7 +803,7 @@
           // and add into array
           paragraphArray.push(value);
         });
-        
+
         // add the paragraph to array of paragraphs
         paragraphsArray.push(paragraphArray);
       }
@@ -837,7 +841,7 @@
 
       // this will loop through all dom elements that use the data-draft-text tag
       for (var i = 0; i < $draftText.length; i++) {
-        
+
         // set self to the current dom node being repeated
         $self = $($draftText[i]);
         // access the value (ex. data-draft-text="4s")
@@ -907,7 +911,7 @@
 
         // return a new random paragraph while the text count is > 0
         while (textCount > 0) {
-          
+
           // randomize the paragraph index based on total paragraphs left
           randomParagraphIndex = this._randomizer(totalParagraphs);
           // pick a paragraph from the array
@@ -935,7 +939,7 @@
         $self.html(returnParagraph);
 
       } else {
-        
+
         // loop through the paragraphs, and combine them into a 1st level array
         for (i = 0; i < totalParagraphs; i++) {
           currentParagraph = data[i];
@@ -1022,7 +1026,7 @@
             index = 0;
           }
         }
-        
+
         // set the current word/sentence based on the index
         currentContext = data[index];
         // except for last in set, add a space to the string
@@ -1091,7 +1095,7 @@
       if (illustrator == placeKitten) {
         imageLink = 'http://placekitten.com/' + waterColor + width + '/' + height;
       } else if (illustrator == placeDog) {
-        imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;        
+        imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;
       } else if (illustrator == baconMockup) {
         imageLink = 'http://baconmockup.com/' + width + '/' + height;
       } else if (illustrator == loremPixel) {
@@ -1187,8 +1191,8 @@
           default:
             break;
         }
-      } 
-      
+      }
+
       // Make sure there are definately some chosen categories...
       if (categories.length > 0) {
         // pick a random category.
@@ -1226,10 +1230,10 @@
       // sets up the randomization if requested
       // does not handle regular date requests (ex. "M")
       if (dateRequest.split('-').length > 1) {
-        
+
         // split on the dash
         dateRequest = dateRequest.split('-');
-        
+
         // if the 2nd index is r, signifies randomization
         if (dateRequest[1].toLowerCase() == 'r') {
           // change the bool of whether to randomize to true
@@ -1244,7 +1248,7 @@
       if (dateRequest == cal.dayNumberZeros || dateRequest == cal.dayTextThree || dateRequest == cal.dayNumber || dateRequest == cal.dayText) {
         // handles requests for day of week information
         if (dateRequest == cal.dayTextThree || dateRequest == cal.dayText || dateRequest == cal.dayTextThree) {
-          
+
           // get the day from the browser
           engineDate = engineDate.getDay();
 
@@ -1275,7 +1279,7 @@
 
           // ex. jan "31"
           engineDate = engineDate.getDate();
-          
+
           // randomize the month date if requested
           if (randomDate === true) {
             // for february...obviously this isnt a perfect system.
@@ -1371,12 +1375,12 @@
       *
       * _parseNumberFormat method
       *
-      * -- pulls out parts of formatting string 
+      * -- pulls out parts of formatting string
       * -- returns object with user preferences
       * -- if user passes no preferences, returns default values
       *
       *  @param numberData -- string -- of the raw data parse
-      *  
+      *
       *  @return numberData -- object -- of the formatted number data
       *
     **********************************************/
@@ -1394,7 +1398,7 @@
 
         // split the data ($, natural numbers, decimals)
         parts = numberData.split(scope.inputSplit)
-        
+
         // set up the object to return parsed data
         data = {
           // will return as true/false bool
@@ -1402,14 +1406,14 @@
           // define defaults
           digitMin: 1,
           digitMax: 1,
-          decimalNumber: 0            
+          decimalNumber: 0
         };
 
-        // get rid of dollar sign          
+        // get rid of dollar sign
         if (data.isCurrency) {
           parts = parts.slice(1, 3);
         }
-        
+
         //at this point, parts[0] will consist of something like 2-4 or 3
         digits = parts[0].split(scope.rangeSplit);
 
@@ -1417,7 +1421,7 @@
          * determine the min/max ranges
          * convert the string to a number format (with +)
          * if no max is supplied, just default to digit min
-         * if it exists, parts[1] will be the number of decimals 
+         * if it exists, parts[1] will be the number of decimals
          */
         data.digitMin = +digits[0] > 0 ? +digits[0] : 1;
         data.digitMax = +digits[1] || data.digitMin;
@@ -1426,7 +1430,7 @@
 
       // set back to numberData for readability and return the object to calling method
       numberData = data;
-      return numberData; 
+      return numberData;
     },
 
     /***********************************************
@@ -1440,7 +1444,7 @@
     /**********************************************
       *
       *  _johnDoe method
-      *  
+      *
       *  -- handles returning the jsonp randomized user data to the dom
       *
       *  @param data -- object -- user data from jsonp request
@@ -1507,12 +1511,12 @@
     * *                                          * *
     * ******************************************** *
     ***********************************************/
-    
+
 
     /**********************************************
       *
       *  _sequencerSequence property
-      *  
+      *
       *  -- Array of words to use as the sequence
       *
     **********************************************/
@@ -1521,7 +1525,7 @@
     /**********************************************
       *
       *  _sequencerNext method
-      *  
+      *
       *  -- Gives the next element in a list, in case the sequence is finished, re-start the sequence
       *
       *  @param index -- number -- last known position
@@ -1538,7 +1542,7 @@
             nextIndex = 0;
         }
 
-        // Provide next word to be used within the 
+        // Provide next word to be used within the
         // loop in sequencer method
         return self._sequencerSequence[nextIndex];
     },
@@ -1554,7 +1558,7 @@
     /**********************************************
       *
       *  _randomizer method
-      *  
+      *
       *  -- handles randomizing a single number or a range between 2 numbers
       *
       *  @param base -- number -- minimum amount if max given, otherwise it is the core number as only param
@@ -1629,7 +1633,7 @@
       *  @return -- array -- cleaned array
       *
     **********************************************/
-    _removeEmptyIndexes: function(text) { 
+    _removeEmptyIndexes: function(text) {
       // this gets rid of any blank indexes
       return $.grep(text,function(n){
         return(n);
@@ -1668,7 +1672,6 @@
     ***********************************************/
 
   $.fn.roughDraft = function(options) {
-    
     // wrapper around the constructor, that prevents against multiple instantiations
     return this.each(function() {
       // store through jquery data
