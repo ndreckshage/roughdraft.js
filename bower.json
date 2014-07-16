@@ -8,25 +8,27 @@
   },
   "authors": [
     {
-        "name": "Nick Dreckshage",
-        "email": "nicholasdreckshage@gmail.com",
-        "url": "http://www.nickdreckshage.com"
+      "name": "Nick Dreckshage",
+      "email": "nicholasdreckshage@gmail.com",
+      "url": "http://www.nickdreckshage.com"
     },
     {
-        "name": "Renoir Boulanger",
-        "email": "renoir@w3.org",
-        "url": "http://renoirboulanger.com"
+      "name": "Renoir Boulanger",
+      "email": "renoir@w3.org",
+      "url": "http://renoirboulanger.com"
     }
   ],
   "keywords": [
-      "prototype",
-      "html",
-      "frontend",
-      "mockup",
-      "development",
-      "styleguide"
+    "prototype",
+    "html",
+    "frontend",
+    "mockup",
+    "development",
+    "styleguide"
   ],
-  "main": ["./jquery.roughdraft.min.js"],
+  "main": [
+    "./jquery.roughdraft.min.js"
+  ],
   "license": [
     "MIT",
     "GPL"
