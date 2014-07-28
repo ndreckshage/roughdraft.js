@@ -6,35 +6,79 @@
   <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="../jquery.roughdraft.js"></script>
   <script src="js/init_index.js"></script>
+  <style>
+  /* Here is some sample CSS, to give some styling to the demo
+     They are, in no way, required for you to use roughdraft. */
+  .wrapper {
+    margin:10px 20%;
+  }
+  article {
+    padding: 20px;
+  }
+  article+article {
+    margin-top:20px;
+  }
+
+  /* Assuming you want to style elements differently
+     based on a given order, you can leverage class names
+     that mentions alfa in it, it’ll be looped through
+     the sequencer. */
+  .sequencer-alfa {
+    border-left: 3px solid #008B8B; /* cyan */
+  }
+  .sequencer-bravo {
+    border-left: 3px solid #FF00FF; /* magenta */
+  }
+  .sequencer-charlie {
+    border-left: 3px solid #FFFF00; /* yellow */
+  }
+  .sequencer-delta {
+    border-left: 3px solid #000; /* black */
+  }
+
+  .alfa-other-side-works-too {
+    color: #008B8B; /* cyan */
+  }
+  .bravo-other-side-works-too {
+    color: #FF00FF; /* magenta */
+  }
+  .charlie-other-side-works-too {
+    color: #FFFF00; /* yellow */
+  }
+  .delta-other-side-works-too {
+    color: #000; /* black */
+  }
+  </style>
 </head>
 <body>
-
-  <!-- repeats everything within div specified times -->
-  <article data-draft-repeat="3">
-    <header>
-      <h2 itemprop="name" data-draft-text="3/w"></h2>
-      <time>
-        <span data-draft-date="M"></span>
-        <span data-draft-date="d"></span>,
-        <span data-draft-date="Y-r"></span>
-      </time>
-      <p>An article by <a href="#" data-draft-user="twitter"></a></p>
-    </header>
-    <div class="article-body" style="overflow:hidden;">
-      <figure style="float:right;width:200px;">
-        <img data-draft-image="200/120" alt="">
-        <figcaption><span data-draft-text="1/s"></span>&nbsp;—&nbsp;<a href="#" data-draft-user="full"></a>, <span data-draft-user="city"></span>, <span data-draft-user="country"></span></figcaption>
-      </figure>
-      <p data-draft-text="4/s"></p>
-      <ul>
-          <li data-draft-repeat="3" data-draft-text="1/s"></li>
-      </ul>
-      <p data-draft-text="1/s"></p>
-    </div>
-    <div class="article-footer">
-      <p><span data-draft-number="3"></span> shares</p>
-    </div>
-  </article>
-
+  <div class="wrapper">
+  <h1>Hello world!</h1>
+    <!-- repeats everything within div specified times -->
+    <article data-draft-repeat="4" class="sequencer-alfa">
+      <header>
+        <h2 itemprop="name" data-draft-text="3/w"></h2>
+        <time>
+          <span data-draft-date="M"></span>
+          <span data-draft-date="d"></span>,
+          <span data-draft-date="Y-r"></span>
+        </time>
+        <p>An article by <a href="#" data-draft-user="twitter"></a></p>
+      </header>
+      <div class="article-body" style="overflow:hidden;">
+        <figure style="float:right;width:200px;">
+          <img data-draft-image="200/120" alt="">
+          <figcaption><span data-draft-text="1/s"></span>&nbsp;—&nbsp;<a href="#" data-draft-user="full"></a>, <span data-draft-user="city"></span>, <span data-draft-user="country"></span></figcaption>
+        </figure>
+        <p data-draft-text="4/s"></p>
+        <ul>
+            <li data-draft-repeat="3" data-draft-text="1/s" class="alfa-other-side-works-too"></li>
+        </ul>
+        <p data-draft-text="1/s"></p>
+      </div>
+      <div class="article-footer">
+        <p><span data-draft-number="3"></span> shares</p>
+      </div>
+    </article>
+  </div>
 </body>
 </html>

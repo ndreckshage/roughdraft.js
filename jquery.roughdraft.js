@@ -71,7 +71,7 @@
     // set timeout for JSONP requests
     timeout: 5000,
     // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
-    classNameSequencer: false,
+    classNameSequencer: true,
     // Use local thesaurus to generate one user, see ['localUsers']
     localUserThesaurus: '/roughdraft.thesaurus.json',
     // if customIpsum is true, relative url of library is necessary
@@ -200,10 +200,6 @@
       if ($draftUser.length) {
         this.socialNetwork($draftUser);
       }
-
-      if (this.options.classNameSequencer !== false) {
-        this.sequencer();
-      }
     },
 
 
@@ -242,22 +238,17 @@
       * @author Renoir Boulanger <hello@renoirboulanger.com>
       *
       **********************************************/
-    sequencer: function(){
-        var opt = this.options
-            className = 'alfa',
-            self = this;
-
-        if(opt.classNameSequencer === true){
-          self._sequencerSequence = ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'];
-
-          $('[class$='+className+']').each(function(index){
-              var parent = $(this).parent();
-
-              parent.find('[class$='+className+']').each(function(index){
-                  $(this).attr('class', $(this).attr('class').replace(className, self._sequencerNext(index)));
-              });
-          });
+    sequencerApply: function(element, index) {
+      if(this.options.classNameSequencer === true){
+        var classNames = element.attr("class"),
+            newClassNames = '',
+            e = (!!classNames && /alfa/.test(classNames))?$(element):null;
+        if(e !== null) {
+          newClassNames = classNames.replace('alfa', this._sequencerNext(index));
+          e.attr('class', newClassNames)
+          //console.debug('sequencerApply [element,index]', e, index);
         }
+      }
     },
 
 
@@ -310,10 +301,16 @@
          * loop through the count of requested repeats
          * -1 on the repeat count because the initial instance of the node still exists
          */
-        for (var x = 0; x < repeatCount - 1; x++) {
+        for (var x = 0; x < repeatCount - 1; ++x) {
           // clone true true (with all deep data + events) to maintain node's JS, and insert into dom
-          $self.clone(true, true).insertAfter($self);
+          var cloneMatter = $self.clone(true, true);
+          // Sequencer applied during loop
+          this.sequencerApply(cloneMatter, x);
+          cloneMatter.insertBefore($self);
         }
+
+        // Apply sequencer for the first one too
+        this.sequencerApply($self, repeatCount - 1);
 
         // reset the variables with the data-repeat tags removed, and repeat loop until 0 instances
         $draftRepeat = $('[data-draft-repeat]');
@@ -1520,7 +1517,7 @@
       *  -- Array of words to use as the sequence
       *
     **********************************************/
-    _sequencerSequence: [],
+    _sequencerSequence: ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'],
 
     /**********************************************
       *
