@@ -19,7 +19,7 @@ $(function(){
   // FULL OPTIONS
   $(window).roughDraft({
     author      : 'lebowskiipsum.com',
-    illustrator : 'placehold',
+    illustrator : 'localsvg',
     timeout: 5000,
     customIpsum: true,
     customIpsumPath: "../../roughdraft.thesaurus.json",
