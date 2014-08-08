@@ -58,7 +58,10 @@
     // the site to generate lorem ipsum from, for both jsonp + custom options
     author      : 'lorem',
     // the site to generate placeholder images from
-    illustrator : 'placehold',
+    // Possible values:
+    // ["placehold", "placekitten", "placedog", "baconmockup", "lorempixel", "localsvg"]
+    // Defaults: "localsvg" (no HTTP request!)
+    illustrator : 'localsvg',
     // array of categories that should be used (will only work for image generators that allow categories)
     // defaults to all
     // ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife', 'fashion', 'people', 'nature', 'sports', 'technics', 'transport']
@@ -70,8 +73,8 @@
     customIpsum : false,
     // set timeout for JSONP requests
     timeout: 5000,
-    // Replace occurences of *alfa in classNames following the NATO phonetic alphabet sequence
-    classNameSequencer: false,
+    // Replace occurences of *alfa* in classNames following the NATO phonetic alphabet sequence
+    classNameSequencer: true,
     // Use local thesaurus to generate one user, see ['localUsers']
     localUserThesaurus: '/roughdraft.thesaurus.json',
     // if customIpsum is true, relative url of library is necessary
@@ -200,10 +203,6 @@
       if ($draftUser.length) {
         this.socialNetwork($draftUser);
       }
-
-      if (this.options.classNameSequencer !== false) {
-        this.sequencer();
-      }
     },
 
 
@@ -242,22 +241,17 @@
       * @author Renoir Boulanger <hello@renoirboulanger.com>
       *
       **********************************************/
-    sequencer: function(){
-        var opt = this.options
-            className = 'alfa',
-            self = this;
-
-        if(opt.classNameSequencer === true){
-          self._sequencerSequence = ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'];
-
-          $('[class$='+className+']').each(function(index){
-              var parent = $(this).parent();
-
-              parent.find('[class$='+className+']').each(function(index){
-                  $(this).attr('class', $(this).attr('class').replace(className, self._sequencerNext(index)));
-              });
-          });
+    sequencerApply: function(element, index) {
+      if(this.options.classNameSequencer === true){
+        var classNames = element.attr("class"),
+            newClassNames = '',
+            e = (!!classNames && /alfa/.test(classNames))?$(element):null;
+        if(e !== null) {
+          newClassNames = classNames.replace('alfa', this._sequencerNext(index));
+          e.attr('class', newClassNames)
+          //console.debug('sequencerApply [element,index]', e, index);
         }
+      }
     },
 
 
@@ -310,10 +304,16 @@
          * loop through the count of requested repeats
          * -1 on the repeat count because the initial instance of the node still exists
          */
-        for (var x = 0; x < repeatCount - 1; x++) {
+        for (var x = 0; x < repeatCount - 1; ++x) {
           // clone true true (with all deep data + events) to maintain node's JS, and insert into dom
-          $self.clone(true, true).insertAfter($self);
+          var cloneMatter = $self.clone(true, true);
+          // Sequencer applied during loop
+          this.sequencerApply(cloneMatter, x);
+          cloneMatter.insertBefore($self);
         }
+
+        // Apply sequencer for the first one too
+        this.sequencerApply($self, repeatCount - 1);
 
         // reset the variables with the data-repeat tags removed, and repeat loop until 0 instances
         $draftRepeat = $('[data-draft-repeat]');
@@ -1065,44 +1065,43 @@
     **********************************************/
     _photoAlbum: function(width, height) {
       var photoAlbum = false,
-          illustrator = this.options.illustrator,
-          placeHold = 'placehold',
-          placeKitten = 'placekitten',
-          placeDog = 'placedog',
-          baconMockup = 'baconmockup',
-          loremPixel = 'lorempixel',
-          waterColor,
-          category,
-          imageLink;
+          illustrator = this.options.illustrator
 
-      // if the request (from options), does not match a gallery, return placehold.it default
+          // call the watercolor method to add color and pass the library to it
+          waterColor = this._waterColor(illustrator),
+
+          // call the category method to add a category and pass library to it
+          category = this._category(illustrator),
+
+          imageLink = null;
+
       switch (illustrator) {
-        case placeHold:                     break;
-        case placeKitten:                   break;
-        case placeDog:                      break;
-        case baconMockup:                   break;
-        case loremPixel:                    break;
-        default:  illustrator = placeHold;  break;
-      }
+        case "placehold":
+          imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
+        break;
 
-      // call the watercolor method to add color and pass the library to it
-      waterColor = this._waterColor(illustrator);
+        case "placekitten":
+          imageLink = 'http://placekitten.com/' + waterColor + width + '/' + height;
+        break;
 
-      // call the category method to add a category and pass library to it
-      category = this._category(illustrator);
+        case "placedog":
+          imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;
+        break;
 
-      // format the links based on the image gallery with the color/random option, height and width
-      if (illustrator == placeKitten) {
-        imageLink = 'http://placekitten.com/' + waterColor + width + '/' + height;
-      } else if (illustrator == placeDog) {
-        imageLink = 'http://placedog.com/' + waterColor + width + '/' + height;
-      } else if (illustrator == baconMockup) {
-        imageLink = 'http://baconmockup.com/' + width + '/' + height;
-      } else if (illustrator == loremPixel) {
-        imageLink = 'http://lorempixel.com/' + waterColor + width + '/' + height;
-        imageLink += category ? '/' + category : '';
-      } else {
-        imageLink = 'http://placehold.it/' + width + 'x' + height + waterColor;
+        case "baconmockup":
+          imageLink = 'http://baconmockup.com/' + width + '/' + height;
+        break;
+
+        case "lorempixel":
+          imageLink = 'http://lorempixel.com/' + waterColor + width + '/' + height;
+          imageLink += category ? '/' + category : '';
+        break;
+
+        case "localsvg":
+        /* falls through */
+        default:
+          imageLink = this._makeSVGdatauri(width, height, "gray", false);
+        break;
       }
 
       // return string of the resulting image url
@@ -1126,6 +1125,7 @@
           placeKitten = 'placekitten',
           placeDog = 'placedog',
           lorempixel = 'lorempixel',
+          localsvg = null,
           waterColor;
 
       /**
@@ -1201,6 +1201,41 @@
       }
 
       return category;
+    },
+
+    /**********************************************
+     *
+     * Generate a SVG image as a data uri
+     *
+     * @author Doug Schepers <schepers@w3.org>
+     *
+     **********************************************/
+    _makeSVGdatauri: function(width, height, color, wireframes) {
+      var font = "Verdana, sans-serif";
+      var fontsize = 20;
+
+      if (65 > width) {
+        fontsize = width / 4;
+      }
+
+      var fontcolor = "white";
+      if (!color) {
+        color = "gray";
+      } else if ("white" == color) {
+        color = "black";
+      }
+
+      width = parseFloat(width);
+      height = parseFloat(height);
+
+      var svgstr = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '">';
+      svgstr += '<rect width="100%" height="100%" fill="' + color + '"/>';
+      if (wireframes) {
+        svgstr += '<line x1="0" x2="' + width + '" y1="0" y2="' + height + '" stroke="gainsboro"/><line x1="' + width + '" x2="0" y1="0" y2="' + height + '" stroke="gainsboro"/>';
+      }
+      svgstr += '<text x="' + (width / 2) + '" y="' + ((height / 2) + (fontsize / 4)) + '" font-size="' + fontsize + '" font="' + font + '" fill="white" text-anchor="middle">' + (width + " x " + height) + '</text></svg>';
+
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgstr);
     },
 
     /***********************************************
@@ -1520,7 +1555,7 @@
       *  -- Array of words to use as the sequence
       *
     **********************************************/
-    _sequencerSequence: [],
+    _sequencerSequence: ['alfa','bravo','charlie','delta','echo','foxtrot','golf','hotel','india','juliet','kilo','lima','mike','november','oscar','papa','quebec','romeo','sierra','tango','uniform','victor','xray','zulu'],
 
     /**********************************************
       *
